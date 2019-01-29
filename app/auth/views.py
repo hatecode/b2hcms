@@ -25,7 +25,7 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username).first()
+        user = User.query.filter_by(username=form.username.data).first()
         if user is  None:
             new_user = User(username=form.username.data,
                             password=form.password_second.data,
@@ -39,6 +39,13 @@ def register():
             return redirect(url_for('auth.login'))
         else:
             flash('the username has been registered,please use another one')
+    '''
+    tips = '***选填项***'.decode('utf-8')
+    form.email.data= tips
+    form.landline.data = tips
+    form.cellphone.data = tips
+    form.department.data = tips
+    '''
     return render_template('auth/registration.html',form=form)
 
 @auth.route('/logout',methods=['GET','POST'])
