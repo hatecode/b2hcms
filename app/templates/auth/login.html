@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>欢迎登录B2H配置管理系统</h1>
+</div>
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+<div>
+    <br><h4>not have a count ? <a href="{{ url_for('auth.register')}}"> register here</a></h4>
+</div>
+{% endblock page_content%}
