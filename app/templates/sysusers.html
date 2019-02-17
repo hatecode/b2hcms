@@ -1,0 +1,85 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{%if current_user.is_admin%}
+<div>
+    <table class="table table-bordered">
+  <caption>系统用户</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+      <th>num</th>
+      <th>username</th>
+      <th>admin</th>
+        <th>cellphone</th>
+        <th>landline</th>
+        <th>emaill</th>
+        <th>department</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for user in users%}
+    <tr name="{{user.username}}">
+        <td><input type="checkbox" id="{{user.username}}" name="{{user.username}}" ></td>
+        <td>document.getElementById('{{user.username}}').parentElement.parentElement.rowIndex</td>
+      <td>{{user.username}}</td>
+      <td>{{user.is_admin}}</td>
+        <td>{{user.cellphone}}</td>
+        <td>{{user.landline}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.department}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+    <div><button id="adduser" name="adduser" onclick="adduser()">添加用户</button> <button id="deluser" name="deluser" onclick="deluser()">删除用户</button></div>
+</div>
+{%endif%}
+
+{% endblock content%}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function adduser(){
+    //window.open('{{url_for('auth.adduser',)}}');
+    window.location.href='{{url_for('auth.adduser',)}}';
+    }
+
+    function ischeckall(){
+    $("#checkall").change(function(){
+        let otherCheckList = $("div tbody input[type='checkbox']");
+        let checkAllStatus = $("#checkall").prop("checked");
+        otherCheckList.prop("checked",checkAllStatus);
+    });
+    }
+
+    function listencheckbox(){
+    $('div table tbody input[type="checkbox"]').on('change',function(){
+    let total = $('div table tbody input[type="checkbox"]').length;
+    let active = $('div table tbody input[type="checkbox"]:checked').length;
+    $('table thead input[type="checkbox"]').get(0).checked = (total === active);
+    });
+    }
+
+    function deluser(){
+    username = $('tbody input:checkbox:checked').attr("id");
+    if( username == null ){
+        alert('pleace choose the line you wanna delete');
+        }
+    else {
+    window.location.href = '{{ url_for('auth.deluser')}}?username=' + username;
+      }
+    }
+
+    window.onload = function(){
+    var i = 0;
+    trlength = $('tbody tr').length;
+    for(i;i<trlength;i++){
+        numtd = $('tbody tr')[i].cells[1];
+        numtd.innerText = i + 1;
+    }
+    };
+</script>
+{% endblock %}

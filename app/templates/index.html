@@ -1,8 +1,14 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+<head></head>
 
-{% block page_content %}
-<div class="page-header">
-    <h1>一片荒芜，还待开垦</h1>
-</div>
-{% endblock page_content%}
+<frameset rows="10%,85%,5%" >
+    <frame name="top" src="{{url_for('main.top')}}">
+    <frameset cols="15%,85%" name="content">
+    <frame name="left"   src="{{url_for('main.left')}}">
+    <frame name="right"  src="{{url_for('main.right')}}">
+    </frameset>
+    <frame name="footer" src="{{url_for('main.footer')}}">
+</frameset>
+
+</html>

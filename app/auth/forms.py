@@ -34,3 +34,6 @@ class ChangePasswordForm(FlaskForm):
                 DataRequired(),EqualTo('new_password_second',message='password doesn\'t match')])
     new_password_second = PasswordField('confirm password',validators=[DataRequired()])
     submit = SubmitField('submit')
+
+class AddUserForm(RegistrationForm):
+    submit = SubmitField('adduser')

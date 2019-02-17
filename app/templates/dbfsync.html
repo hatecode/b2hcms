@@ -1,0 +1,40 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+     dbfsync
+{% endblock title%}
+
+{% block content %}
+{%if current_user.is_admin%}
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+<div>
+    <input class="btn btn-default" type="button" name="cancel" value="cancel" onclick="cancel()">
+    <input class="btn btn-default" type="button" name="test" value="test" id="test">
+
+</div>
+{% endif%}
+{% endblock content%}
+
+{% block scripts %}
+{{super()}}
+<script>
+window.onload = function(){
+    baseconfigid = document.getElementById('dbfsyncid');
+    baseconfigid.readOnly = 'readonly';
+};
+
+function cancel(){
+    window.location.href = '{{url_for('main.right')}}';
+}
+
+document.getElementById('submit').removeEventListener('onsubmit',onsubmit,false);
+
+document.getElementById('test').onclick = function(){
+    rsp = $.get('{{url_for('main.baseconfigids')}}');
+    alert(JSON.stringify(rsp));
+}
+</script>
+{% endblock scripts %}

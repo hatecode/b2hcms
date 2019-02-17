@@ -6,15 +6,15 @@
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{ url_for('main.index')}}" }}>B2H配置管理系统</a>
+        <a class="navbar-brand" href="#" }}>B2H配置管理系统</a>
     </div>
     <div>
         <ul class="nav navbar-nav navbar-right">
             {% if  current_user.is_authenticated %}
             <li><a href="#">{{ current_user.username }}</a></li>
-            <li><a href="{{ url_for('auth.edit_profile') }}">修改资料</a></li>
-            <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
-            <li><a href="{{ url_for('auth.logout')}}">退出</a></li>
+            <li><a href="{{ url_for('auth.edit_profile') }}" target="right">修改资料</a></li>
+            <li><a href="{{ url_for('auth.change_password') }}" target="right">修改密码</a></li>
+            <li><a href="{{ url_for('auth.logout')}}" target="_top" onclick="return exit()">退出</a></li>
             {% endif %}
         </ul>
     </div>
@@ -24,17 +24,22 @@
 
 {% block content%}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
-
     {% block page_content %}{% endblock %}
 </div>
 {% endblock content%}
 
+
 {% block scripts %}
 {{ super() }}
+<script>
+    function exit(){
+    var msg = confirm('确定退出系统吗？');
+    if(msg){
+        return true;
+    }
+    else{
+        return false;
+    }
+    }
+</script>
 {% endblock %}

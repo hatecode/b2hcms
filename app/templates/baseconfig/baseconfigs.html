@@ -1,0 +1,89 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{%if current_user.is_admin%}
+<div>
+    <table class="table table-bordered">
+  <caption>基础配置文件</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+      <th>num</th>
+      <th>baseconfigid</th>
+      <th>baseconfigname</th>
+        <th>lastupdate</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for baseconfig in baseconfigs %}
+    <tr name="{{baseconfig.baseconfigname}}">
+        <td><input type="checkbox" id="{{baseconfig.baseconfigid}}" name="{{baseconfig.baseconfigname}}" ></td>
+        <td>document.getElementById('{{baseconfig.baseconfigid}}').parentElement.parentElement.rowIndex</td>
+      <td>{{baseconfig.baseconfigid}}</td>
+      <td>{{baseconfig.baseconfigname}}</td>
+        <td>{{baseconfig.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+    <div><button id="addconfig" name="addconfig" onclick="addconfig()">添加配置文件</button>
+        <button id="editconfig" name="editconfig" onclick="editconfig()">编辑配置文件</button>
+        <button id="delconfig" name="delconfig" onclick="delconfig()">删除配置文件</button></div>
+</div>
+{%endif%}
+
+{% endblock content%}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function addconfig(){
+    window.location.href='{{url_for('main.addconfig',)}}';
+    }
+
+    function ischeckall(){
+    $("#checkall").change(function(){
+        let otherCheckList = $("div tbody input[type='checkbox']");
+        let checkAllStatus = $("#checkall").prop("checked");
+        otherCheckList.prop("checked",checkAllStatus);
+    });
+    }
+
+    function listencheckbox(){
+    $('div table tbody input[type="checkbox"]').on('change',function(){
+    let total = $('div table tbody input[type="checkbox"]').length;
+    let active = $('div table tbody input[type="checkbox"]:checked').length;
+    $('table thead input[type="checkbox"]').get(0).checked = (total === active);
+    });
+    }
+
+    function delconfig(){
+    baseconfigid = $('tbody input:checkbox:checked').attr("id");
+    if( baseconfigid == null){
+        alert('pleace choose the line you wanna delete');
+        }
+    else {
+    window.location.href = '{{ url_for('main.delconfig')}}?baseconfigid=' + baseconfigid;
+        }
+    }
+
+    function editconfig(){
+    baseconfigid = $('tbody input:checkbox:checked').attr("id");
+    if( baseconfigid == null){
+        alert('pleace choose the line you wanna edit');
+        }
+    else {
+    window.location.href = '{{ url_for('main.editconfig')}}?baseconfigid=' + baseconfigid;
+        }
+    }
+    window.onload = function(){
+    var i = 0;
+    trlength = $('tbody tr').length;
+    for(i;i<trlength;i++){
+        numtd = $('tbody tr')[i].cells[1];
+        numtd.innerText = i + 1;
+    }
+    };
+</script>
+{% endblock %}

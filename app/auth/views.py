@@ -1,6 +1,6 @@
 #encoding:utf-8
 
-from flask import render_template,redirect,flash,url_for
+from flask import render_template,redirect,flash,url_for,request
 from flask_login import current_user,login_user,logout_user,login_required
 
 from . import auth
@@ -52,8 +52,8 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('logout in success')
-    return redirect(url_for('main.index'))
+    #flash('logout in success')
+    return redirect(url_for('auth.login'))
 
 @auth.route('/edit_profile',methods=['GET','POST'])
 @login_required
@@ -67,7 +67,7 @@ def edit_profile():
         db.session.add(current_user)
         db.session.commit()
         flash('eidt profile in success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.right'))
     form.department.data = current_user.department
     form.email.data = current_user.email
     form.cellphone.data = current_user.cellphone
@@ -86,3 +86,41 @@ def change_password():
     else:
         flash('invalid old password')
     return render_template('auth/change_password.html',form=form)
+
+@auth.route('/adduser',methods=['GET','POST'])
+@login_required
+def adduser():
+    form = AddUserForm()
+    if form.validate_on_submit():
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user is None:
+                new_user = User(username=form.username.data,
+                                password=form.password_second.data,
+                                email=form.email.data,
+                                landline=form.landline.data,
+                                cellphone=form.cellphone.data,
+                                department=form.department.data)
+                db.session.add(new_user)
+                db.session.commit()
+                flash('adduser in success')
+                return redirect(url_for('main.sysusers'))
+            else:
+                flash('the username has been registered,please use another one')
+    return render_template('auth/adduser.html',form=form)
+
+@auth.route('/deluser',methods=['GET','POST'])
+@login_required
+def deluser():
+    username = request.args.get("username")
+    user = User.query.filter_by(username=username).first()
+    if user.is_admin:
+        flash('can not delete the admin')
+        return redirect(url_for('main.sysusers'))
+    elif user:
+        db.session.delete(user)
+        db.session.commit()
+    else:
+        flash('user not eixst')
+        return render_template('404.html')
+    return redirect(url_for('main.sysusers'))

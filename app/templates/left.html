@@ -1,0 +1,26 @@
+{% extends "bootstrap/base.html"%}
+{% block navbar %}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid"> 
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{url_for('main.right')}}" target="right">系统管理</a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{url_for('main.sysusers')}}" target="right">用户管理</a></li>
+            <li><a href="{{url_for('main.baseconfig')}}" target="right">基础配置文件</a></li>
+            <li><a href="{{url_for('main.dbfsync')}}" target="right">代理券商dbfsync链接</a></li>
+            <li><a href="{{url_for('main.oprationlog')}}" target="right">基础日志查询</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+{%- endblock navbar %}
+
