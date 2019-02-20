@@ -75,20 +75,20 @@ class OperationLog(db.Model):
 class HGStock(db.Model):
     __tablename__ = 'hgstocks'
     id = db.Column(db.Integer, primary_key=True)
-    hgstock = db.Column(db.String(6), unique=True, index=True)
-    stkabbr = db.Column(db.String(10), nullable=False, index=True)
-    hkstock = db.Column(db.String(6), nullable=False, unique=True)
+    hgstock = db.Column(db.String(6), unique=True)
+    stkabbr = db.Column(db.String(10))
+    hkstock = db.Column(db.String(6), unique=True)
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
 class TWUser(db.Model):
     __tablename__ = 'twusers'
     id = db.Column(db.Integer, primary_key=True)
     clientid = db.Column(db.String(10), unique=True, index=True)
-    groupid = db.Column(db.String(10), nullable=False)
-    istestuser = db.Column(db.Boolean, nullable=False)
-    ekey = db.Column(db.String(15), nullable=False)
-    password = db.Column(db.String(20), nullable=False)
-    broker = db.Column(db.String(50), nullable=False)
+    groupid = db.Column(db.String(10))
+    istestuser = db.Column(db.Boolean)
+    ekey = db.Column(db.String(15))
+    password = db.Column(db.String(20))
+    broker = db.Column(db.String(50))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
 class OperatorOperationLog(db.Model):
@@ -96,41 +96,41 @@ class OperatorOperationLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(15), nullable=False, index=True)
     actiontype = db.Column(db.String(10), nullable=False, index=True)
-    actiontime = db.Column(db.DateTime, default=datetime.utcnow)
     actioncontent = db.Column(db.UnicodeText, nullable=True)
     user = db.Column(db.String(30), nullable=False, index=True)
     remote_addr = db.Column(db.String(20), index=True)
     filetype = db.Column(db.String(10), nullable=False, index=True)
+    actiontime = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 class Stock(db.Model):
     __tablename__ = 'stocks'
     id = db.Column(db.Integer, primary_key=True)
-    stock_zqdm = db.Column(db.String(6), unique=True, nullable=False)
-    stkabbr = db.Column(db.String(12), nullable=False)
-    biztype = db.Column(db.String(4), nullable=False)
-    info = db.Column(db.String(32), nullable=False)
+    zqdm = db.Column(db.String(6), unique=True, nullable=False)
+    stkabbr = db.Column(db.String(12))
+    biztype = db.Column(db.String(4))
+    info = db.Column(db.String(32))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitbases = db.relationship('SplitBase', uselist=False, backref='stock')
+    splitbases = db.relationship('SplitBase', uselist=False, backref='stock', cascade='all, delete-orphan')
 
     def __repr__(self):
-        return '<Stock %r>' % self.stock_zqdm
+        return '<Stock %r>' % self.zqdm
 
     __str__ = __repr__
 
 class SplitBase(db.Model):
     __tablename__ = 'splitbases'
     id = db.Column(db.Integer, primary_key=True)
-    splitbase_zqdm = db.Column(db.String(6), unique=True, nullable=False)
-    sendtocsdc = db.Column(db.Boolean, nullable=False)
-    hassplitdetail = db.Column(db.Boolean, nullable=False)
-    splitbase_agentid = db.Column(db.String(6), nullable=False)
+    zqdm = db.Column(db.String(6), db.ForeignKey('stocks.zqdm'), nullable=False, unique=True)
+    sendtocsdc = db.Column(db.Boolean)
+    hassplitdetail = db.Column(db.Boolean)
+    agentid = db.Column(db.String(16), db.ForeignKey('agents.agentid'),nullable=False)
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
-
+    splitdetails = db.relationship('SplitDetail', uselist=False, backref='splitbase', cascade='all, delete-orphan')
     def __repr__(self):
-        return '<SplitBase %r>' % self.splitbase_zqdm
+        return '<SplitBase %r>' % self.zqdm
 
     __str__ = __repr__
 
@@ -138,15 +138,18 @@ class SplitBase(db.Model):
 class SplitDetail(db.Model):
     __tablename__ = 'splitdetails'
     id = db.Column(db.Integer, primary_key=True)
-    splitdetail_agentid = db.Column(db.String(6), unique=True, nullable=False)
-    broker = db.Column(db.String(6), nullable=False)
+    zqdm = db.Column(db.String(6), db.ForeignKey('splitbases.zqdm'), nullable=False)
+    agentid = db.Column(db.String(16),nullable=False)
+    broker = db.Column(db.String(64))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Agent(db.Model):
     __tablename__ = 'agents'
     id = db.Column(db.Integer, primary_key=True)
-    agent_agentid = db.Column(db.String(6), unique=True, nullable=False)
-    agentname = db.Column(db.String(6), nullable=False)
+    agentid = db.Column(db.String(16), unique=True, nullable=False)
+    agentname = db.Column(db.String(24))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
+
+    splitbases = db.relationship('SplitBase', backref='agent',lazy='dynamic',cascade='all, delete-orphan')
 
 

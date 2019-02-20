@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98663bfd-12aa-48d2-938b-85c9cc74797f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/left.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/left.html" afterDir="false" />
+    <list default="true" id="98663bfd-12aa-48d2-938b-85c9cc74797f" name="Default" comment="完成数据库表设计，并通过一对一，一对多关系对新增，删除的数据完整性约束，且把数据库换成了mysql(sqlite3默认外键是关闭的)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-dev.sqlite" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,83 +16,100 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/main/views.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="31" />
+            <state relative-caret-position="210">
+              <caret line="74" column="24" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
               <folding>
-                <element signature="e#1#93#0" expanded="true" />
+                <element signature="e#236#1390#0" />
+                <element signature="e#690#715#0" />
+                <element signature="e#779#832#0" />
+                <element signature="e#881#936#0" />
+                <element signature="e#1011#1292#0" />
+                <element signature="e#1049#1271#0" />
+                <element signature="e#1131#1200#0" />
+                <element signature="e#1325#1366#0" />
+                <element signature="e#1447#1482#0" />
+                <element signature="e#1516#1850#0" />
+                <element signature="e#1881#2078#0" />
+                <element signature="e#2114#2567#0" />
+                <element signature="e#2598#2935#0" />
+                <element signature="e#2965#3441#0" />
+                <element signature="e#3349#3880#0" />
+                <element signature="e#4045#4606#0" />
+                <element signature="e#4551#4582#0" />
+                <element signature="e#4639#5146#0" />
+                <element signature="e#5077#5122#0" />
+                <element signature="e#5334#5673#0" />
+                <element signature="e#5700#6073#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/operator/forms.py">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="35" lean-forward="true" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
-              <folding>
-                <element signature="e#16#47#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="615">
+              <caret line="41" column="78" selection-start-line="41" selection-start-column="78" selection-end-line="41" selection-end-column="78" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="left.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/left.html">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="390">
-              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oprationlog.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/oprationlog.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="28" column="30" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="operationlog.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/operator/operationlog.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/operator/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="54" selection-start-line="30" selection-start-column="54" selection-end-line="30" selection-end-column="54" />
+              <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
               <folding>
-                <element signature="e#0#92#0" expanded="true" />
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hgstock.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/operator/hgstock.html">
+      <file leaf-file-name="c9c770549430_.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/versions/c9c770549430_.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="stock.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/operator/stock.html">
+      <file leaf-file-name="b20ecf137c4d_.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/versions/b20ecf137c4d_.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="agent.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/operator/agent.html">
+      <file leaf-file-name="d4bc619881c2_.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/versions/d4bc619881c2_.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="twuser.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/operator/twuser.html">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="env.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/env.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="b2hcms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/b2hcms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -99,8 +117,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -145,15 +163,12 @@
         <option value="$PROJECT_DIR$/app/templates/baseconfig/editconfig.html" />
         <option value="$PROJECT_DIR$/app/templates/right.html" />
         <option value="$PROJECT_DIR$/app/templates/_macro.html" />
-        <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/tools.py" />
-        <option value="$PROJECT_DIR$/app/models.py" />
         <option value="$PROJECT_DIR$/app/templates/_logs.html" />
         <option value="$PROJECT_DIR$/app/templates/dbfsync.html" />
         <option value="$PROJECT_DIR$/app/auth/views.py" />
         <option value="$PROJECT_DIR$/app/templates/top.html" />
         <option value="$PROJECT_DIR$/app/main/forms.py" />
-        <option value="$PROJECT_DIR$/b2hcms.py" />
         <option value="$PROJECT_DIR$/app/main/views.py" />
         <option value="$PROJECT_DIR$/app/templates/oprationlog.html" />
         <option value="$PROJECT_DIR$/app/operator/errors.py" />
@@ -167,6 +182,10 @@
         <option value="$PROJECT_DIR$/app/templates/operator/operationlog.html" />
         <option value="$PROJECT_DIR$/app/operator/views.py" />
         <option value="$PROJECT_DIR$/app/operator/forms.py" />
+        <option value="$PROJECT_DIR$/b2hcms.py" />
+        <option value="$PROJECT_DIR$/migrations/versions/cc9065bc5344_.py" />
+        <option value="$PROJECT_DIR$/config.py" />
+        <option value="$PROJECT_DIR$/app/models.py" />
       </list>
     </option>
   </component>
@@ -182,7 +201,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,15 +228,7 @@
             <path>
               <item name="b2hcms" type="b2602c69:ProjectViewProjectNode" />
               <item name="b2hcms" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="b2hcms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="b2hcms" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="operator" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="b2hcms" type="b2602c69:ProjectViewProjectNode" />
@@ -263,6 +273,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -272,6 +283,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/migrations" />
       <recent name="$PROJECT_DIR$/app/templates/baseconfig" />
     </key>
   </component>
@@ -319,7 +331,21 @@
       <option name="project" value="LOCAL" />
       <updated>1550413997206</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="开始普通用户模块">
+      <created>1550503740085</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1550503740085</updated>
+    </task>
+    <task id="LOCAL-00005" summary="完成普通用户对 form 和 model&#10;model的表关系还需调整">
+      <created>1550591264436</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1550591264436</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -328,12 +354,11 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16842847" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32917705" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917705" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32917705" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32917705" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.26433915" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -342,6 +367,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32917705" />
     </layout>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -377,59 +403,20 @@
     <MESSAGE value="2019/1/28/23:44" />
     <MESSAGE value="2019/1/29/23:44" />
     <MESSAGE value="2019/1/29/23:44 complete admin tast" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019/1/29/23:44 complete admin tast" />
+    <MESSAGE value="开始普通用户模块" />
+    <MESSAGE value="完成普通用户对 form 和 model&#10;model的表关系还需调整" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成普通用户对 form 和 model&#10;model的表关系还需调整" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2018.1/python_stubs/1536203178/datetime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2430">
-          <caret line="162" column="6" selection-start-line="162" selection-start-column="6" selection-end-line="162" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/403.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/404.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/500.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../logging/venv/lib/python2.7/site-packages/flask_bootstrap/templates/bootstrap/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/alembic.ini">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/migrations/versions/0fb189c709f3_.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="22" column="81" selection-start-line="22" selection-start-column="81" selection-end-line="22" selection-end-column="81" />
-          <folding>
-            <element signature="e#99#121#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -481,9 +468,6 @@
         <state relative-caret-position="-507" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/versions/c9c770549430_.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/baseconfig/editconfig.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -504,9 +488,6 @@
           <caret line="58" column="18" lean-forward="true" selection-start-line="58" selection-start-column="18" selection-end-line="58" selection-end-column="18" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/versions/d4bc619881c2_.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor" />
@@ -532,211 +513,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../logging/venv/lib/python2.7/site-packages/wtforms/fields/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="441" column="39" lean-forward="true" selection-start-line="441" selection-start-column="39" selection-end-line="441" selection-end-column="39" />
-          <folding>
-            <element signature="e#329#534#0" />
-            <element signature="e#564#11440#0" />
-            <element signature="e#564#596#1" />
-            <element signature="e#886#1047#0" />
-            <element signature="e#1314#4391#0" />
-            <element signature="e#1314#3357#1" />
-            <element signature="e#4281#4391#0" />
-            <element signature="e#4428#4581#0" />
-            <element signature="e#4428#4559#1" />
-            <element signature="e#4614#4767#0" />
-            <element signature="e#4614#4745#1" />
-            <element signature="e#4801#4960#0" />
-            <element signature="e#4801#4938#1" />
-            <element signature="e#5004#5671#0" />
-            <element signature="e#5004#5619#1" />
-            <element signature="e#5712#6011#0" />
-            <element signature="e#5712#5961#1" />
-            <element signature="e#6066#6407#0" />
-            <element signature="e#6066#6343#1" />
-            <element signature="e#6473#7730#0" />
-            <element signature="e#6473#6936#1" />
-            <element signature="e#7143#7248#0" />
-            <element signature="e#7393#7521#0" />
-            <element signature="e#7795#8449#0" />
-            <element signature="e#7795#8094#1" />
-            <element signature="e#8144#8427#0" />
-            <element signature="e#8243#8345#0" />
-            <element signature="e#8493#8669#0" />
-            <element signature="e#8493#8656#1" />
-            <element signature="e#8734#9051#0" />
-            <element signature="e#8734#9038#1" />
-            <element signature="e#9112#10452#0" />
-            <element signature="e#9112#9573#1" />
-            <element signature="e#9651#9759#0" />
-            <element signature="e#9971#10270#0" />
-            <element signature="e#10297#10370#0" />
-            <element signature="e#10497#10792#0" />
-            <element signature="e#10497#10766#1" />
-            <element signature="e#10845#11147#0" />
-            <element signature="e#10845#11088#1" />
-            <element signature="e#11196#11440#0" />
-            <element signature="e#11196#11402#1" />
-            <element signature="e#11475#12207#0" />
-            <element signature="e#11581#11770#0" />
-            <element signature="e#11852#12084#0" />
-            <element signature="e#12118#12207#0" />
-            <element signature="e#12235#12739#0" />
-            <element signature="e#12235#12363#1" />
-            <element signature="e#12405#12506#0" />
-            <element signature="e#12550#12576#0" />
-            <element signature="e#12610#12739#0" />
-            <element signature="e#12767#13460#0" />
-            <element signature="e#12767#12802#1" />
-            <element signature="e#12851#12900#0" />
-            <element signature="e#12933#12946#0" />
-            <element signature="e#12983#12996#0" />
-            <element signature="e#13030#13043#0" />
-            <element signature="e#13098#13375#0" />
-            <element signature="e#13409#13460#0" />
-            <element signature="e#13497#14668#0" />
-            <element signature="e#13535#13723#1" />
-            <element signature="e#13815#13967#0" />
-            <element signature="e#14005#14186#0" />
-            <element signature="e#14005#14150#1" />
-            <element signature="e#14220#14550#0" />
-            <element signature="e#14391#14550#0" />
-            <element signature="e#14586#14668#0" />
-            <element signature="e#14641#14668#0" />
-            <element signature="e#14711#15719#0" />
-            <element signature="e#14841#14969#0" />
-            <element signature="e#15007#15106#0" />
-            <element signature="e#15151#15267#0" />
-            <element signature="e#15320#15518#0" />
-            <element signature="e#15346#15518#0" />
-            <element signature="e#15562#15719#0" />
-            <element signature="e#15600#15640#0" />
-            <element signature="e#15766#16946#0" />
-            <element signature="e#15766#15974#1" />
-            <element signature="e#16055#16212#0" />
-            <element signature="e#16101#16212#0" />
-            <element signature="e#16257#16390#0" />
-            <element signature="e#16443#16648#0" />
-            <element signature="e#16692#16946#0" />
-            <element signature="e#16718#16946#0" />
-            <element signature="e#16808#16946#0" />
-            <element signature="e#16984#17306#0" />
-            <element signature="e#16984#17213#1" />
-            <element signature="e#17339#17752#0" />
-            <element signature="e#17339#17465#1" />
-            <element signature="e#17551#17660#0" />
-            <element signature="e#17692#17752#0" />
-            <element signature="e#17796#18787#0" />
-            <element signature="e#17796#17937#1" />
-            <element signature="e#18047#18316#0" />
-            <element signature="e#18193#18316#0" />
-            <element signature="e#18353#18553#0" />
-            <element signature="e#18370#18436#0" />
-            <element signature="e#18600#18659#0" />
-            <element signature="e#18707#18787#0" />
-            <element signature="e#18821#19597#0" />
-            <element signature="e#18821#18962#1" />
-            <element signature="e#19068#19131#0" />
-            <element signature="e#19163#19328#0" />
-            <element signature="e#19381#19597#0" />
-            <element signature="e#19407#19597#0" />
-            <element signature="e#19505#19597#0" />
-            <element signature="e#19648#22298#0" />
-            <element signature="e#19648#20346#1" />
-            <element signature="e#20487#20855#0" />
-            <element signature="e#20887#21861#0" />
-            <element signature="e#20989#21825#0" />
-            <element signature="e#21133#21763#0" />
-            <element signature="e#21188#21494#0" />
-            <element signature="e#21537#21763#0" />
-            <element signature="e#21537#21594#0" />
-            <element signature="e#21914#22298#0" />
-            <element signature="e#21940#22298#0" />
-            <element signature="e#21961#22130#0" />
-            <element signature="e#22206#22298#0" />
-            <element signature="e#22330#23102#0" />
-            <element signature="e#22330#22469#1" />
-            <element signature="e#22575#22636#0" />
-            <element signature="e#22668#22833#0" />
-            <element signature="e#22886#23102#0" />
-            <element signature="e#22912#23102#0" />
-            <element signature="e#23012#23102#0" />
-            <element signature="e#23136#24287#0" />
-            <element signature="e#23136#23592#1" />
-            <element signature="e#23761#23906#0" />
-            <element signature="e#23951#23974#0" />
-            <element signature="e#24027#24154#0" />
-            <element signature="e#24186#24287#0" />
-            <element signature="e#24322#25153#0" />
-            <element signature="e#24322#24404#1" />
-            <element signature="e#24538#24631#0" />
-            <element signature="e#24663#24808#0" />
-            <element signature="e#24861#25153#0" />
-            <element signature="e#24887#25153#0" />
-            <element signature="e#25060#25153#0" />
-            <element signature="e#25192#25770#0" />
-            <element signature="e#25192#25263#1" />
-            <element signature="e#25354#25422#0" />
-            <element signature="e#25475#25770#0" />
-            <element signature="e#25501#25770#0" />
-            <element signature="e#25681#25770#0" />
-            <element signature="e#25809#26375#0" />
-            <element signature="e#25809#25871#1" />
-            <element signature="e#25959#26027#0" />
-            <element signature="e#26080#26375#0" />
-            <element signature="e#26106#26375#0" />
-            <element signature="e#26286#26375#0" />
-            <element signature="e#26406#28763#0" />
-            <element signature="e#26406#26713#1" />
-            <element signature="e#26848#27272#0" />
-            <element signature="e#27333#27799#0" />
-            <element signature="e#27369#27506#0" />
-            <element signature="e#27865#28040#0" />
-            <element signature="e#28089#28434#0" />
-            <element signature="e#28168#28391#0" />
-            <element signature="e#28468#28490#0" />
-            <element signature="e#28533#28555#0" />
-            <element signature="e#28598#28629#0" />
-            <element signature="e#28673#28694#0" />
-            <element signature="e#28740#28763#0" />
-            <element signature="e#28794#34306#0" />
-            <element signature="e#28794#29438#1" />
-            <element signature="e#29627#30141#0" />
-            <element signature="e#30202#31070#0" />
-            <element signature="e#30276#30384#0" />
-            <element signature="e#30452#30879#0" />
-            <element signature="e#30686#30879#0" />
-            <element signature="e#30906#30979#0" />
-            <element signature="e#31130#31640#0" />
-            <element signature="e#31130#31430#1" />
-            <element signature="e#31503#31640#0" />
-            <element signature="e#31544#31640#0" />
-            <element signature="e#31706#32308#0" />
-            <element signature="e#31706#31947#1" />
-            <element signature="e#32071#32154#0" />
-            <element signature="e#32357#32886#0" />
-            <element signature="e#32709#32850#0" />
-            <element signature="e#32967#33577#0" />
-            <element signature="e#33633#33859#0" />
-            <element signature="e#33633#33817#1" />
-            <element signature="e#33894#34039#0" />
-            <element signature="e#34073#34098#0" />
-            <element signature="e#34131#34155#0" />
-            <element signature="e#34199#34225#0" />
-            <element signature="e#34269#34306#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/auth/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-          <folding>
-            <element signature="e#17#81#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -744,16 +524,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="24" column="65" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="72" column="15" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="15" />
-          <folding>
-            <element signature="e#16#45#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -789,9 +559,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="35" selection-end-line="13" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -806,26 +573,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="29" lean-forward="true" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="3" selection-end-column="64" />
-          <folding>
-            <element signature="e#16#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -833,29 +580,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/b2hcms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="96" selection-start-line="11" selection-start-column="96" selection-end-line="11" selection-end-column="96" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -871,16 +595,6 @@
     <entry file="file://$PROJECT_DIR$/app/templates/operator/twuser.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="31" />
-          <folding>
-            <element signature="e#1#93#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/oprationlog.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
@@ -891,16 +605,6 @@
     <entry file="file://$PROJECT_DIR$/app/templates/operator/operationlog.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/operator/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="54" selection-start-line="30" selection-start-column="54" selection-end-line="30" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#92#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/left.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -908,12 +612,133 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../logging/venv/lib/python2.7/site-packages/wtforms/validators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="252" column="6" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/main/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../logging/venv/lib/python2.7/site-packages/wtforms/fields/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="106" column="20" lean-forward="true" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/operator/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="54" selection-start-line="30" selection-start-column="54" selection-end-line="30" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/main/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="9" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/operator/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="35" lean-forward="true" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        <state relative-caret-position="690">
+          <caret line="46" column="37" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
           <folding>
-            <element signature="e#16#47#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/versions/c9c770549430_.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/versions/d4bc619881c2_.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/cc9065bc5344_.py" />
+    <entry file="file://$PROJECT_DIR$/migrations/versions/b20ecf137c4d_.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../logging/venv/lib/python2.7/site-packages/sqlalchemy/dialects/mysql/mysqldb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/b2hcms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="78" selection-start-line="41" selection-start-column="78" selection-end-line="41" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="74" column="24" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
+          <folding>
+            <element signature="e#236#1390#0" />
+            <element signature="e#690#715#0" />
+            <element signature="e#779#832#0" />
+            <element signature="e#881#936#0" />
+            <element signature="e#1011#1292#0" />
+            <element signature="e#1049#1271#0" />
+            <element signature="e#1131#1200#0" />
+            <element signature="e#1325#1366#0" />
+            <element signature="e#1447#1482#0" />
+            <element signature="e#1516#1850#0" />
+            <element signature="e#1881#2078#0" />
+            <element signature="e#2114#2567#0" />
+            <element signature="e#2598#2935#0" />
+            <element signature="e#2965#3441#0" />
+            <element signature="e#3349#3880#0" />
+            <element signature="e#4045#4606#0" />
+            <element signature="e#4551#4582#0" />
+            <element signature="e#4639#5146#0" />
+            <element signature="e#5077#5122#0" />
+            <element signature="e#5334#5673#0" />
+            <element signature="e#5700#6073#0" />
           </folding>
         </state>
       </provider>
