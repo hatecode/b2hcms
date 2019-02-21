@@ -18,7 +18,8 @@ def login():
             flash('login in success')
             return redirect(url_for('main.index'))
         else:
-            flash('invalid username or password')
+            #flash('invalid username or password')
+            return 'invalid username or password'
     return render_template('auth/login.html',form=form)
 
 @auth.route('/register',methods=['GET','POST'])
@@ -33,12 +34,18 @@ def register():
                             landline=form.landline.data,
                             cellphone=form.cellphone.data,
                             department=form.department.data)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('register in success')
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                #flash('register in success')
+            except Exception,e:
+                db.session.rollback()
+                return str(e)
             return redirect(url_for('auth.login'))
         else:
-            flash('the username has been registered,please use another one')
+            #flash('the username has been registered,please use another one')
+            return 'the username has been registered,please use another one'
+
     '''
     tips = '***选填项***'.decode('utf-8')
     form.email.data= tips
@@ -64,9 +71,13 @@ def edit_profile():
         current_user.landline = form.landline.data
         current_user.cellphone = form.cellphone.data
         current_user.department = form.department.data
-        db.session.add(current_user)
-        db.session.commit()
-        flash('eidt profile in success')
+        try:
+            db.session.add(current_user)
+            db.session.commit()
+            #flash('eidt profile in success')
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
         return redirect(url_for('main.right'))
     form.department.data = current_user.department
     form.email.data = current_user.email
@@ -80,11 +91,16 @@ def change_password():
     form = ChangePasswordForm()
     if current_user.check_password(str(form.old_password.data)):
         current_user.password = form.new_password_first.data
-        db.session.add(current_user)
-        db.session.commit()
-        flash('change password in success')
+        try:
+            db.session.add(current_user)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        #flash('change password in success')
     else:
-        flash('invalid old password')
+        #flash('invalid old password')
+        return 'invalid old password'
     return render_template('auth/change_password.html',form=form)
 
 @auth.route('/adduser',methods=['GET','POST'])
@@ -101,12 +117,17 @@ def adduser():
                                 landline=form.landline.data,
                                 cellphone=form.cellphone.data,
                                 department=form.department.data)
-                db.session.add(new_user)
-                db.session.commit()
-                flash('adduser in success')
+                try:
+                    db.session.add(new_user)
+                    db.session.commit()
+                    #flash('adduser in success')
+                except Exception,e:
+                    db.session.rollback()
+                    return str(e)
                 return redirect(url_for('main.sysusers'))
             else:
-                flash('the username has been registered,please use another one')
+                #flash('the username has been registered,please use another one')
+                return 'the username has been registered,please use another one'
     return render_template('auth/adduser.html',form=form)
 
 @auth.route('/deluser',methods=['GET','POST'])
@@ -115,12 +136,16 @@ def deluser():
     username = request.args.get("username")
     user = User.query.filter_by(username=username).first()
     if user.is_admin:
-        flash('can not delete the admin')
+        #flash('can not delete the admin')
         return redirect(url_for('main.sysusers'))
     elif user:
-        db.session.delete(user)
-        db.session.commit()
+        try:
+            db.session.delete(user)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
     else:
-        flash('user not eixst')
+        #flash('user not eixst')
         return render_template('404.html')
     return redirect(url_for('main.sysusers'))

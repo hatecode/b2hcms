@@ -1,7 +1,7 @@
 {% extends "editinfo.html" %}
 
 {% block title %}
-     editconfig
+     edithgstock
 {% endblock title%}
 
 {% block scripts %}
@@ -9,12 +9,12 @@
 <script>
 /*
 window.onload = function(){
-    baseconfigid = document.getElementById('baseconfigid');
-    baseconfigid.readOnly = 'readonly';
+    agentid = document.getElementById('agentid');
+    agentid.readOnly = 'readonly';
 };
 */
 function cancel(){
-    window.location.href = '{{url_for('main.baseconfig')}}'
+    window.location.href = '{{url_for('operator.hgstock')}}'
 }
 
 </script>

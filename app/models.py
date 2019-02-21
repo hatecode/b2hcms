@@ -102,7 +102,6 @@ class OperatorOperationLog(db.Model):
     filetype = db.Column(db.String(10), nullable=False, index=True)
     actiontime = db.Column(db.DateTime, default=datetime.utcnow)
 
-
 class Stock(db.Model):
     __tablename__ = 'stocks'
     id = db.Column(db.Integer, primary_key=True)
@@ -133,7 +132,6 @@ class SplitBase(db.Model):
         return '<SplitBase %r>' % self.zqdm
 
     __str__ = __repr__
-
 
 class SplitDetail(db.Model):
     __tablename__ = 'splitdetails'

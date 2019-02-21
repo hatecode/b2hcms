@@ -1,0 +1,15 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+     editinfo
+{% endblock title%}
+
+{% block content %}
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+<div>
+    <input class="btn btn-default" type="button" name="cancel" value="cancel" onclick="cancel()">
+</div>
+{% endblock content%}

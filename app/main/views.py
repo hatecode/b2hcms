@@ -77,9 +77,13 @@ def addconfig():
                                actiontime=datetime.now(),
                                user=current_user.username,
                                remote_addr=request.remote_addr)
-            db.session.add_all([log,baseconfig])
-            #db.session.add(baseconfig)
-            db.session.commit()
+            try:
+                db.session.add_all([log,baseconfig])
+                #db.session.add(baseconfig)
+                db.session.commit()
+            except Exception,e:
+                db.session.rollback()
+                return str(e)
             return redirect(url_for('main.baseconfig'))
     return render_template('baseconfig/addconfig.html',form=form)
 
@@ -103,14 +107,20 @@ def editconfig():
         db_baseconfig.baseconfigname = form.baseconfigname.data
         db_baseconfig.baseconfigcontent = form.baseconfigcontent.data
         db_baseconfig.lastupdate = datetime.now()
-        db.session.add_all([log, db_baseconfig])
-        #db.session.add(db_baseconfig)
-        db.session.commit()
+        try:
+            db.session.add_all([log, db_baseconfig])
+            #db.session.add(db_baseconfig)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
         return redirect(url_for('main.baseconfig'))
     if db_baseconfig is not None:
         form.baseconfigid.data = db_baseconfig.baseconfigid
         form.baseconfigname.data = db_baseconfig.baseconfigname
         form.baseconfigcontent.data = db_baseconfig.baseconfigcontent
+    else:
+        return 'the req_baseconfigid record: %s does\'nt exist' % req_baseconfigid
     return render_template('baseconfig/editconfig.html',form=form)
 
 @main.route('/delconfig')
@@ -127,9 +137,13 @@ def delconfig():
                            actiontime=datetime.now(),
                            user=current_user.username,
                            remote_addr=request.remote_addr)
-        db.session.add(log)
-        db.session.delete(db_baseconfig)
-        db.session.commit()
+        try:
+            db.session.add(log)
+            db.session.delete(db_baseconfig)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
         return redirect(url_for('main.baseconfig'))
     return render_template('404.html')
 
@@ -149,8 +163,12 @@ def dbfsync():
                            actiontime=datetime.now(),
                            user=current_user.username,
                            remote_addr=request.remote_addr)
-        db.session.add(log)
-        db.session.commit()
+        try:
+            db.session.add(log)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
         return redirect(url_for('main.right'))
     form.dbfsyncid.data = dbfsync.dbfsyncid
     form.dbfsynccontent.data = dbfsync.dbfsynccontent
