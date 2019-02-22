@@ -1,0 +1,74 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macro.html" as macros %}
+
+
+{% block content %}
+<div>{% include 'operator/splitbase/_splitbases.html' %}</div>
+    <div><button id="addsplitbase" name="addsplitbase" onclick="addsplitbase()">添加基本路由</button>
+        <button id="editsplitbase" name="editsplitbase" onclick="editsplitbase()">编辑基本路由</button>
+        <button id="delsplitbase" name="delsplitbase" onclick="delsplitbase()">删除基本路由</button></div>
+    </div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.splitbase') }}
+</div>
+{% endif %}
+<div><p><a href="{{url_for('operator.stock')}}">返回首页：证券信息</a></p></div>
+<div><p><a href="{{url_for('operator.splitdetail')}}">第三步：添加详细路由</a></p></div>
+
+{% endblock content%}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function addsplitbase(){
+    window.location.href='{{url_for('operator.addsplitbase')}}';
+    }
+
+    function delsplitbase(){
+    zqdm = $('tbody input:checkbox:checked').attr("id");
+    if( zqdm == null){
+        alert('pleace choose the line you wanna delete');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.delsplitbase')}}?zqdm=' + zqdm;
+        }
+    }
+
+    function editsplitbase(){
+    zqdm = $('tbody input:checkbox:checked').attr("id");
+    if( zqdm == null){
+        alert('pleace choose the line you wanna edit');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.editsplitbase')}}?zqdm=' + zqdm;
+        }
+    }
+
+        function ischeckall(){
+    $("#checkall").change(function(){
+        let otherCheckList = $("div tbody input[type='checkbox']");
+        let checkAllStatus = $("#checkall").prop("checked");
+        otherCheckList.prop("checked",checkAllStatus);
+    });
+    }
+
+    function listencheckbox(){
+    $('div table tbody input[type="checkbox"]').on('change',function(){
+    let total = $('div table tbody input[type="checkbox"]').length;
+    let active = $('div table tbody input[type="checkbox"]:checked').length;
+    $('table thead input[type="checkbox"]').get(0).checked = (total === active);
+    });
+    }
+
+    window.onload = function(){
+    var i = 0;
+    trlength = $('tbody tr').length;
+    for(i;i<trlength;i++){
+        numtd = $('tbody tr')[i].cells[1];
+        numtd.innerText = i + 1;
+    }
+    };
+</script>
+{% endblock %}

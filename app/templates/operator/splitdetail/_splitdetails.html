@@ -1,0 +1,25 @@
+<table class="table table-bordered">
+  <caption>详细路由</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>证券代码</th>
+        <th>代理券商id</th>
+        <th>交易单元</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for splitdetail in splitdetails %}
+    <tr name="{{splitdetail.zqdm}}">
+        <td><input type="checkbox" id="{{splitdetail.zqdm}}" name="{{splitdetail.zqdm}}" ></td>
+        <td>document.getElementById('{{splitdetail.zqdm}}').parentElement.parentElement.rowIndex</td>
+        <td>{{splitdetail.zqdm}}</td>
+        <td>{{splitdetail.agentid}}</td>
+        <td>{{splitdetail.broker}}</td>
+        <td>{{splitdetail.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

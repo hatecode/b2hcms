@@ -12,7 +12,7 @@ def hgstock():
     pagination = HGStock.query.order_by(HGStock.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     hgstocks = pagination.items
-    return render_template('operator/hgstock.html',pagination=pagination,hgstocks=hgstocks)
+    return render_template('operator/hgstock/hgstock.html',pagination=pagination,hgstocks=hgstocks)
 
 @operator.route('/addhgstock',methods=['GET','POST'])
 @login_required
@@ -40,7 +40,7 @@ def addhgstock():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.hgstock'))
-    return render_template('operator/addhgstock.html',form=form)
+    return render_template('operator/hgstock/addhgstock.html',form=form)
 
 @operator.route('/edithgstock',methods=['GET','POST'])
 @login_required
@@ -57,9 +57,9 @@ def edithgstock():
                                                  ' stkabbr=' + form.stkabbr.data +
                                                  ' hkstock=' + form.hkstock.data +
                                                  ' old:'+
-                                                 ' hgstock='+db_hgstock.hgstock+
+                                                 ' hgstock='+db_hgstock.hgstock +
                                                  ' stkabbr=' + db_hgstock.stkabbr +
-                                                 ' hkstock='+db_hgstock.hkstock,
+                                                 ' hkstock='+db_hgstock.hkstock ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)
@@ -79,8 +79,34 @@ def edithgstock():
         form.stkabbr.data = db_hgstock.stkabbr
         form.hkstock.data = db_hgstock.hkstock
     else:
-        return 'the req_hgstock record: %s does\'nt exist' % req_hgstock
-    return render_template('operator/edithgstock.html',form=form)
+        return 'the hgstock record: %s doesn\'t exist' % req_hgstock
+    return render_template('operator/hgstock/edithgstock.html',form=form)
+
+@operator.route('/delhgstock')
+@login_required
+def delhgstock():
+    req_hgstock = request.args.get('hgstock')
+    db_hgstock = HGStock.query.filter_by(hgstock=req_hgstock).first()
+    if db_hgstock is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='hgstock',
+                                   actiontype='delete',
+                                   actioncontent='delete a hgstock:' +
+                                                 ' hgstock=' + db_hgstock.hgstock +
+                                                 ' stkabbr=' + db_hgstock.stkabbr +
+                                                 ' hkstock=' + db_hgstock.hkstock ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_hgstock)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.hgstock'))
+    return 'the hgstock ; %s doesn\'t exist' % req_hgstock
 
 @operator.route('/stock')
 @login_required
@@ -89,7 +115,7 @@ def stock():
     pagination = Stock.query.order_by(Stock.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     stocks = pagination.items
-    return render_template('operator/stock.html', pagination=pagination, stocks=stocks)
+    return render_template('operator/stock/stock.html', pagination=pagination, stocks=stocks)
 
 @operator.route('/addstock',methods=['GET','POST'])
 @login_required
@@ -119,7 +145,7 @@ def addstock():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.stock'))
-    return render_template('operator/addstock.html',form=form)
+    return render_template('operator/stock/addstock.html',form=form)
 
 @operator.route('/editstock',methods=['GET','POST'])
 @login_required
@@ -162,8 +188,35 @@ def editstock():
         form.biztype.data = db_stock.biztype
         form.info.data = db_stock.info
     else:
-        return 'the req_zqdm record: %s does\'nt exist' % req_zqdm
-    return render_template('operator/editstock.html',form=form)
+        return 'the zqdm record: %s doesn\'t exist' % req_zqdm
+    return render_template('operator/stock/editstock.html',form=form)
+
+@operator.route('/delstock')
+@login_required
+def delstock():
+    req_zqdm = request.args.get('zqdm')
+    db_stock = Stock.query.filter_by(zqdm=req_zqdm).first()
+    if db_stock is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='stock',
+                                   actiontype='delete',
+                                   actioncontent='delete a stock:' +
+                                                 ' zqdm=' + db_stock.zqdm +
+                                                 ' stkabbr=' + db_stock.stkabbr +
+                                                 ' biztype=' + db_stock.biztype +
+                                                 ' info=' + db_stock.info ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_stock)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.stock'))
+    return 'the zqdm ; %s doesn\'t exist' % req_zqdm
 
 @operator.route('/splitbase')
 @login_required
@@ -172,7 +225,7 @@ def splitbase():
     pagination = SplitBase.query.order_by(SplitBase.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     splitbases = pagination.items
-    return render_template('operator/splitbase.html', pagination=pagination, splitbases=splitbases)
+    return render_template('operator/splitbase/splitbase.html', pagination=pagination, splitbases=splitbases)
 
 @operator.route('/addsplitbase',methods=['GET','POST'])
 @login_required
@@ -180,8 +233,8 @@ def addsplitbase():
     form = AddSplitBasicForm()
     if form.validate_on_submit():
             splitbase = SplitBase(zqdm=form.zqdm.data,
-                                  sendtocsdc=form.sendtocsdc.data,
-                                  hassplitdetail=form.hassplitdetail.data,
+                                  sendtocsdc=int(form.sendtocsdc.data),
+                                  hassplitdetail=int(form.hassplitdetail.data),
                                   agentid = form.agentid.data,
                                   lastupdate=datetime.now())
             log = OperatorOperationLog(filetype='basictype',
@@ -202,7 +255,7 @@ def addsplitbase():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.splitbase'))
-    return render_template('operator/addsplitbase.html',form=form)
+    return render_template('operator/splitbase/addsplitbase.html',form=form)
 
 @operator.route('/editsplitbase',methods=['GET','POST'])
 @login_required
@@ -220,7 +273,7 @@ def editsplitbase():
                                          ' hassplitdetail=' + form.hassplitdetail.data +
                                          ' agentid=' + form.agentid.data +
                                          ' old:'+
-                                         ' zqdm='+db_splitbase.zqdm+
+                                         ' zqdm='+db_splitbase.zqdm +
                                          ' sendtocsdc=' + db_splitbase.sendtocsdc +
                                          ' hassplitdetail='+db_splitbase.hassplitdetail +
                                          ' agentid=' + db_splitbase.agentid ,
@@ -245,8 +298,35 @@ def editsplitbase():
         form.hassplitdetail.data = db_splitbase.hassplitdetail
         form.agentid.data = db_splitbase.agentid
     else:
-        return 'the req_zqdm record: %s does\'nt exist' % req_zqdm
-    return render_template('operator/editsplitbase.html',form=form)
+        return 'the zqdm record: %s doesn\'t exist' % req_zqdm
+    return render_template('operator/splitbase/editsplitbase.html',form=form)
+
+@operator.route('/delsplitbase')
+@login_required
+def delsplitbase():
+    req_zqdm = request.args.get('zqdm')
+    db_splitbase = SplitBase.query.filter_by(zqdm=req_zqdm).first()
+    if db_splitbase is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='splitbase',
+                                   actiontype='delete',
+                                   actioncontent='delete a splitbase:' +
+                                                 ' zqdm=' + db_splitbase.zqdm +
+                                                 ' sendtocsdc=' + db_splitbase.sendtocsdc +
+                                                 ' hassplitdetail=' + db_splitbase.hassplitdetail +
+                                                 ' agentid=' + db_splitbase.agentid ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_splitbase)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.splitbase'))
+    return 'the zqdm ; %s doesn\'t exist' % req_zqdm
 
 @operator.route('/splitdetail')
 @login_required
@@ -255,7 +335,7 @@ def splitdetail():
     pagination = SplitDetail.query.order_by(SplitDetail.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     splitdetails = pagination.items
-    return render_template('operator/splitdetail.html', pagination=pagination, splitdetails=splitdetails)
+    return render_template('operator/splitdetail/splitdetail.html', pagination=pagination, splitdetails=splitdetails)
 
 @operator.route('/addsplitdetail',methods=['GET','POST'])
 @login_required
@@ -283,7 +363,7 @@ def addsplitdetail():
             db.session.rollback()
             return str(e)
         return redirect(url_for('operator.splitdetail'))
-    return render_template('operator/addsplitdetail.html',form=form)
+    return render_template('operator/splitdetail/addsplitdetail.html',form=form)
 
 @operator.route('/editsplitdetail',methods=['GET','POST'])
 @login_required
@@ -300,7 +380,7 @@ def editsplitdetail():
                                                  ' broker=' + form.broker.data +
                                                  ' agentid=' + form.agentid.data +
                                                  ' old:'+
-                                                 ' zqdm='+db_splitdetail.zqdm+
+                                                 ' zqdm='+db_splitdetail.zqdm +
                                                  ' broker=' + db_splitdetail.broker +
                                                  ' agentid=' + db_splitdetail.agentid ,
                                    actiontime=datetime.now(),
@@ -322,8 +402,34 @@ def editsplitdetail():
         form.broker.data = db_splitdetail.broker
         form.agentid.data = db_splitdetail.agentid
     else:
-        return 'the req_zqdm record: %s does\'nt exist' % req_zqdm
-    return render_template('operator/editsplitdetail.html',form=form)
+        return 'the zqdm record: %s doesn\'t exist' % req_zqdm
+    return render_template('operator/splitdetail/editsplitdetail.html',form=form)
+
+@operator.route('/delsplitdetail')
+@login_required
+def delsplitdetail():
+    req_zqdm = request.args.get('zqdm')
+    db_splitdetail = SplitDetail.query.filter_by(zqdm=req_zqdm).first()
+    if db_splitdetail is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='splitdetail',
+                                   actiontype='delete',
+                                   actioncontent='delete a splitdetail:' +
+                                                 ' zqdm=' + db_splitdetail.zqdm +
+                                                 ' broker=' + db_splitdetail.broker +
+                                                 ' agentid=' + db_splitdetail.agentid ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_splitdetail)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.splitdetail'))
+    return 'the zqdm ; %s doesn\'t exist' % req_zqdm
 
 @operator.route('/agent')
 @login_required
@@ -332,7 +438,7 @@ def agent():
     pagination = Agent.query.order_by(Agent.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     agents = pagination.items
-    return render_template('operator/agent.html', pagination=pagination, agents=agents)
+    return render_template('operator/agent/agent.html', pagination=pagination, agents=agents)
 
 @operator.route('/addagent',methods=['GET','POST'])
 @login_required
@@ -358,7 +464,7 @@ def addagent():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.agent'))
-    return render_template('operator/addagent.html',form=form)
+    return render_template('operator/agent/addagent.html',form=form)
 
 @operator.route('/editagent',methods=['GET','POST'])
 @login_required
@@ -374,7 +480,7 @@ def editagent():
                                                  ' agentid=' + form.agentid.data +
                                                  ' agentname=' + form.agentname.data +
                                                  ' old:'+
-                                                 ' agentid='+db_agent.agentid+
+                                                 ' agentid='+db_agent.agentid +
                                                  ' agentname=' + db_agent.agentname ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
@@ -393,8 +499,33 @@ def editagent():
         form.agentid.data = db_agent.agentid
         form.agentname.data = db_agent.agentname
     else:
-        return 'the req_agentid record: %s does\'nt exist' % req_agentid
-    return render_template('operator/editagent.html',form=form)
+        return 'the agentid record: %s doesn\'t exist' % req_agentid
+    return render_template('operator/agent/editagent.html',form=form)
+
+@operator.route('/delagent')
+@login_required
+def delagent():
+    req_agentid = request.args.get('agentid')
+    db_agent = Agent.query.filter_by(agentid=req_agentid).first()
+    if db_agent is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='agent',
+                                   actiontype='delete',
+                                   actioncontent='delete a agent:' +
+                                                 ' agentid=' + db_agent.agentid +
+                                                 ' agentname=' + db_agent.agentname ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_agent)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.agent'))
+    return 'the agentid ; %s doesn\'t exist' % req_agentid
 
 @operator.route('/twuser')
 @login_required
@@ -403,7 +534,7 @@ def twuser():
     pagination = TWUser.query.order_by(TWUser.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     twusers = pagination.items
-    return render_template('operator/twuser.html', pagination=pagination, twusers=twusers)
+    return render_template('operator/twuser/twuser.html', pagination=pagination, twusers=twusers)
 
 @operator.route('/addtwuser',methods=['GET','POST'])
 @login_required
@@ -412,7 +543,7 @@ def addtwuser():
     if form.validate_on_submit():
             twuser = TWUser(clientid=form.clientid.data,
                             groupid=form.groupid.data,
-                            istestuser=form.istestuser.data,
+                            istestuser=int(form.istestuser.data),
                             ekey=form.ekey.data,
                             password=form.password.data,
                             broker=form.broker.data,
@@ -426,7 +557,7 @@ def addtwuser():
                                                      ' istestuser=' + form.istestuser.data +
                                                      ' ekey=' + form.ekey.data +
                                                      ' password=' + form.password.data +
-                                                     ' broker=' + form.broker.data ,
+                                                     ' broker=' + str(form.broker.data) ,
                                        actiontime=datetime.now(),
                                        user=current_user.username,
                                        remote_addr=request.remote_addr)
@@ -437,7 +568,7 @@ def addtwuser():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.twuser'))
-    return render_template('operator/addtwuser.html',form=form)
+    return render_template('operator/twuser/addtwuser.html',form=form)
 
 @operator.route('/edittwuser',methods=['GET','POST'])
 @login_required
@@ -457,18 +588,18 @@ def edittwuser():
                                                  ' password=' + form.password.data +
                                                  ' broker=' + form.broker.data +
                                                  ' old:'+
-                                                 ' clientid='+db_twuser.clientid+
+                                                 ' clientid='+db_twuser.clientid +
                                                  ' groupid=' + db_twuser.groupid +
                                                  ' istestuser='+db_twuser.istestuser +
                                                  ' ekey=' + db_twuser.ekey +
                                                  ' password=' + db_twuser.password +
-                                                 ' broker=' + db_twuser.broker ,
+                                                 ' broker=' + str(db_twuser.broker) ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)
         db_twuser.clientid = form.clientid.data
         db_twuser.groupid = form.groupid.data
-        db_twuser.istestuser = form.istestuser.data
+        db_twuser.istestuser = int(form.istestuser.data)
         db_twuser.ekey = form.ekey.data
         db_twuser.password = form.password.data
         db_twuser.broker = form.broker.data
@@ -488,10 +619,39 @@ def edittwuser():
         form.password.data = db_twuser.password
         form.broker.data = db_twuser.broker
     else:
-        return 'the req_clientid record: %s does\'nt exist' % req_clientid
-    return render_template('operator/edittwuser.html',form=form)
+        return 'the clientid record: %s doesn\'t exist' % req_clientid
+    return render_template('operator/twuser/edittwuser.html',form=form)
 
-@operator.route('/operatorlog')
+@operator.route('/deltwuser')
+@login_required
+def deltwuser():
+    req_clientid = request.args.get('clientid')
+    db_twuser = TWUser.query.filter_by(clientid=req_clientid).first()
+    if db_twuser is not None:
+        log = OperatorOperationLog(filetype='basictype',
+                                   filename='twuser',
+                                   actiontype='delete',
+                                   actioncontent='delete a twuser:' +
+                                                 ' clientid=' + db_twuser.clientid +
+                                                 ' groupid=' + db_twuser.groupid +
+                                                 ' istestuser=' + db_twuser.istestuser +
+                                                 ' ekey=' + db_twuser.ekey +
+                                                 ' password=' + db_twuser.password +
+                                                 ' broker=' + db_twuser.broker ,
+                                   actiontime=datetime.now(),
+                                   user=current_user.username,
+                                   remote_addr=request.remote_addr)
+        try:
+            db.session.add(log)
+            db.session.delete(db_twuser)
+            db.session.commit()
+        except Exception,e:
+            db.session.rollback()
+            return str(e)
+        return redirect(url_for('operator.agent'))
+    return 'the clientid ; %s doesn\'t exist' % req_clientid
+
+@operator.route('/operatorlog',methods=['GET','POST'])
 @login_required
 def operatorlog():
     form = SearchForm()
@@ -515,4 +675,4 @@ def operatorlog():
         pagination = OperatorOperationLog.query.order_by(OperatorOperationLog.actiontime.desc()).paginate(
             page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     logs = pagination.items
-    return render_template('operator/operatorlog.html',pagination=pagination,logs=logs,form=form)
+    return render_template('operator/log/operatorlog.html',pagination=pagination,logs=logs,form=form)

@@ -108,10 +108,10 @@ class Stock(db.Model):
     zqdm = db.Column(db.String(6), unique=True, nullable=False)
     stkabbr = db.Column(db.String(12))
     biztype = db.Column(db.String(4))
-    info = db.Column(db.String(32))
+    info = db.Column(db.String(128))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitbases = db.relationship('SplitBase', uselist=False, backref='stock', cascade='all, delete-orphan')
+    splitbases = db.relationship('SplitBase', uselist=False, backref='stock')
 
     def __repr__(self):
         return '<Stock %r>' % self.zqdm
@@ -121,13 +121,13 @@ class Stock(db.Model):
 class SplitBase(db.Model):
     __tablename__ = 'splitbases'
     id = db.Column(db.Integer, primary_key=True)
-    zqdm = db.Column(db.String(6), db.ForeignKey('stocks.zqdm'), nullable=False, unique=True)
+    zqdm = db.Column(db.String(6), db.ForeignKey('stocks.zqdm', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, unique=True)
     sendtocsdc = db.Column(db.Boolean)
     hassplitdetail = db.Column(db.Boolean)
-    agentid = db.Column(db.String(16), db.ForeignKey('agents.agentid'),nullable=False)
+    agentid = db.Column(db.String(16), db.ForeignKey('agents.agentid', ondelete='CASCADE', onupdate='CASCADE'),nullable=False)
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitdetails = db.relationship('SplitDetail', uselist=False, backref='splitbase', cascade='all, delete-orphan')
+    splitdetails = db.relationship('SplitDetail', uselist=False, backref='splitbase')
     def __repr__(self):
         return '<SplitBase %r>' % self.zqdm
 
@@ -136,7 +136,7 @@ class SplitBase(db.Model):
 class SplitDetail(db.Model):
     __tablename__ = 'splitdetails'
     id = db.Column(db.Integer, primary_key=True)
-    zqdm = db.Column(db.String(6), db.ForeignKey('splitbases.zqdm'), nullable=False)
+    zqdm = db.Column(db.String(6), db.ForeignKey('splitbases.zqdm', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     agentid = db.Column(db.String(16),nullable=False)
     broker = db.Column(db.String(64))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
@@ -148,6 +148,6 @@ class Agent(db.Model):
     agentname = db.Column(db.String(24))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitbases = db.relationship('SplitBase', backref='agent',lazy='dynamic',cascade='all, delete-orphan')
+    splitbases = db.relationship('SplitBase', backref='agent',lazy='dynamic')
 
 

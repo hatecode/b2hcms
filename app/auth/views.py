@@ -147,5 +147,5 @@ def deluser():
             return str(e)
     else:
         #flash('user not eixst')
-        return render_template('404.html')
+        return render_template('error/404.html')
     return redirect(url_for('main.sysusers'))

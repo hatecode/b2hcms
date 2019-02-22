@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+    <tr>
+        <th>文件类型</th>
+        <th>文件名称</th>
+        <th>操作类型</th>
+        <th>操作内容</th>
+        <th>用户ip</th>
+        <th>用户</th>
+        <th>操作时间</th>
+    </tr>
+{% for log in logs %}
+    <tr>
+        <td>{{log.filetype}}</td>
+        <td>{{log.filename}}</td>
+        <td>{{log.actiontype}}</td>
+        <td>{{log.actioncontent}}</td>
+        <td>{{log.remote_addr}}</td>
+        <td>{{log.user}}</td>
+        <td>{{log.actiontime.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+{% endfor%}
+</table>

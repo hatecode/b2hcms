@@ -2,27 +2,25 @@
 {% import "_macro.html" as macros %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-
 {% block title %}oprationlog{% endblock %}
 
 {% block content %}
-{%if current_user.is_admin%}
 <div>{{wtf.quick_form(form)}}</div>
 <div><input type="button" class="btn btn-default" name="reset" value="reset" id="reset" onclick="reset()"></div>
-<div>{% include '_logs.html' %}</div>
+<div>{% include 'operator/log/_logs.html' %}</div>
 
 {% if pagination %}
 <div class="pagination">
-    {{ macros.pagination_widget(pagination, '.oprationlog') }}
+    {{ macros.pagination_widget(pagination, '.operatorlog') }}
 </div>
 {% endif %}
-{%endif%}
 {% endblock content%}
 
 {%block scripts%}
 {{super()}}
 <script>
     function reset(){
+   document.getElementById('filetype').value='';
    document.getElementById('filename').value='';
    document.getElementById('actiontype').value='';
    document.getElementById('user').value='';

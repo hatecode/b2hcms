@@ -1,0 +1,25 @@
+<table class="table table-bordered">
+  <caption>行情证券信息</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>B/H股代码</th>
+        <th>证券简称</th>
+        <th>香港股票代码</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for hgstock in hgstocks %}
+    <tr name="{{hgstock.hgstock}}">
+        <td><input type="checkbox" id="{{hgstock.hgstock}}" name="{{hgstock.hgstock}}" ></td>
+        <td>document.getElementById('{{hgstock.hgstock}}').parentElement.parentElement.rowIndex</td>
+        <td>{{hgstock.hgstock}}</td>
+        <td>{{hgstock.stkabbr}}</td>
+        <td>{{hgstock.hkstock}}</td>
+        <td>{{hgstock.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

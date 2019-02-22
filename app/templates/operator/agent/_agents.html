@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+  <caption>代理券商</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>代理券商id</th>
+        <th>代理券商名称</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for agent in agents %}
+    <tr name="{{agent.agentname}}">
+        <td><input type="checkbox" id="{{agent.agentid}}" name="{{agent.agentid}}" ></td>
+        <td>document.getElementById('{{agent.agentid}}').parentElement.parentElement.rowIndex</td>
+        <td>{{agent.agentid}}</td>
+        <td>{{agent.agentname}}</td>
+        <td>{{agent.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

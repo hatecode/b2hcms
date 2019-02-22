@@ -12,33 +12,27 @@ from sqlalchemy import and_,or_
 def index():
     #users = User.query.order_by(User.id).all()
     #return render_template('index.html',users=users)
-    return render_template('index.html')
+    return render_template('index/index.html')
 
 @main.route('/top')
 @login_required
 def top():
-    return render_template('top.html')
+    return render_template('index/_top.html')
 
 @main.route('/left')
 @login_required
 def left():
-    return render_template('left.html')
+    return render_template('index/_left.html')
 
 @main.route('/right')
 @login_required
 def right():
-    return render_template('right.html')
-
-@main.route('/sysusers')
-@login_required
-def sysusers():
-    users = User.query.order_by(User.id).all()
-    return render_template('sysusers.html',users=users)
+    return render_template('index/_right.html')
 
 @main.route('/footer')
 @login_required
 def footer():
-    return render_template('footer.html')
+    return render_template('index/_footer.html')
 
 @main.route('/baseconfig')
 @login_required
@@ -131,9 +125,10 @@ def delconfig():
     if db_baseconfig is not None:
         log = OperationLog(filename='baseconfig',
                            actiontype='delete',
-                           actioncontent='delete a baseconfig:' + ' id=' + db_baseconfig.baseconfigid +
+                           actioncontent='delete a baseconfig:' +
+                                         ' id=' + db_baseconfig.baseconfigid +
                                          ' name=' + db_baseconfig.baseconfigname +
-                                         ' content=' + db_baseconfig.baseconfigcontent,
+                                         ' content=' + db_baseconfig.baseconfigcontent ,
                            actiontime=datetime.now(),
                            user=current_user.username,
                            remote_addr=request.remote_addr)
@@ -145,7 +140,13 @@ def delconfig():
             db.session.rollback()
             return str(e)
         return redirect(url_for('main.baseconfig'))
-    return render_template('404.html')
+    return 'the baseconfigid ; %s doesn\'t exist' % req_baseconfigid
+
+@main.route('/sysusers')
+@login_required
+def sysusers():
+    users = User.query.order_by(User.id).all()
+    return render_template('admin/sysusers.html',users=users)
 
 @main.route('/dbfsync',methods=['GET','POST'])
 @login_required
@@ -170,9 +171,10 @@ def dbfsync():
             db.session.rollback()
             return str(e)
         return redirect(url_for('main.right'))
-    form.dbfsyncid.data = dbfsync.dbfsyncid
-    form.dbfsynccontent.data = dbfsync.dbfsynccontent
-    return render_template('dbfsync.html',form=form)
+    if dbfsync:
+        form.dbfsyncid.data = dbfsync.dbfsyncid
+        form.dbfsynccontent.data = dbfsync.dbfsynccontent
+    return render_template('admin/dbfsync.html',form=form)
 
 @main.route('/oprationlog',methods=['GET','POST'])
 @login_required
@@ -195,4 +197,4 @@ def oprationlog():
         pagination = OperationLog.query.order_by(OperationLog.actiontime.desc()).paginate(
             page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'],error_out=False)
     logs = pagination.items
-    return render_template('oprationlog.html',pagination=pagination,logs=logs,form=form)
+    return render_template('admin/oprationlog.html',pagination=pagination,logs=logs,form=form)

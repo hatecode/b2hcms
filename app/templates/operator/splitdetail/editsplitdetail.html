@@ -1,0 +1,21 @@
+{% extends "editinfo.html" %}
+
+{% block title %}
+     editsplitdetail
+{% endblock title%}
+
+{% block scripts %}
+{{super()}}
+<script>
+/*
+window.onload = function(){
+    agentid = document.getElementById('agentid');
+    agentid.readOnly = 'readonly';
+};
+*/
+function cancel(){
+    window.location.href = '{{url_for('operator.splitdetail')}}'
+}
+
+</script>
+{% endblock scripts %}

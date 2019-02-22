@@ -1,0 +1,71 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macro.html" as macros %}
+
+
+{% block content %}
+<div>{% include 'operator/twuser/_twusers.html' %}</div>
+    <div><button id="addtwuser" name="addtwuser" onclick="addtwuser()">添加境内用户</button>
+        <button id="edittwuser" name="edittwuser" onclick="edittwuser()">编辑境内用户</button>
+        <button id="deltwuser" name="deltwuser" onclick="deltwuser()">删除境内用户</button></div>
+    </div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.twuser') }}
+</div>
+{% endif %}
+{% endblock content%}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function addtwuser(){
+    window.location.href='{{url_for('operator.addtwuser')}}';
+    }
+
+    function deltwuser(){
+    clientid = $('tbody input:checkbox:checked').attr("id");
+    if( clientid == null){
+        alert('pleace choose the line you wanna delete');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.deltwuser')}}?clientid=' + clientid;
+        }
+    }
+
+    function edittwuser(){
+    clientid = $('tbody input:checkbox:checked').attr("id");
+    if( clientid == null){
+        alert('pleace choose the line you wanna edit');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.edittwuser')}}?clientid=' + clientid;
+        }
+    }
+
+        function ischeckall(){
+    $("#checkall").change(function(){
+        let otherCheckList = $("div tbody input[type='checkbox']");
+        let checkAllStatus = $("#checkall").prop("checked");
+        otherCheckList.prop("checked",checkAllStatus);
+    });
+    }
+
+    function listencheckbox(){
+    $('div table tbody input[type="checkbox"]').on('change',function(){
+    let total = $('div table tbody input[type="checkbox"]').length;
+    let active = $('div table tbody input[type="checkbox"]:checked').length;
+    $('table thead input[type="checkbox"]').get(0).checked = (total === active);
+    });
+    }
+
+    window.onload = function(){
+    var i = 0;
+    trlength = $('tbody tr').length;
+    for(i;i<trlength;i++){
+        numtd = $('tbody tr')[i].cells[1];
+        numtd.innerText = i + 1;
+    }
+    };
+</script>
+{% endblock %}

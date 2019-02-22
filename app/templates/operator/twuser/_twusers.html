@@ -1,0 +1,31 @@
+<table class="table table-bordered">
+  <caption>境内用户</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>小站号</th>
+        <th>组id</th>
+        <th>是否位测试用户</th>
+        <th>EKEY序列号</th>
+        <th>密码</th>
+        <th>席位号</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for twuser in twusers %}
+    <tr name="{{twuser.clientid}}">
+        <td><input type="checkbox" id="{{twuser.clientid}}" name="{{twuser.clientid}}" ></td>
+        <td>document.getElementById('{{twuser.clientid}}').parentElement.parentElement.rowIndex</td>
+        <td>{{twuser.clientid}}</td>
+        <td>{{twuser.groupid}}</td>
+        <td>{{twuser.istestuser}}</td>
+        <td>{{twuser.ekey}}</td>
+        <td>{{twuser.password}}</td>
+        <td>{{twuser.broker}}</td>
+        <td>{{twuser.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

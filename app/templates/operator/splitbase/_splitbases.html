@@ -1,0 +1,27 @@
+<table class="table table-bordered">
+  <caption>基本路由</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>证券代码</th>
+        <th>是否发送结算</th>
+        <th>是否配置详细路由</th>
+        <th>代理券商id</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for splitbase in splitbases %}
+    <tr name="{{splitbase.zqdm}}">
+        <td><input type="checkbox" id="{{splitbase.zqdm}}" name="{{splitbase.zqdm}}" ></td>
+        <td>document.getElementById('{{splitbase.zqdm}}').parentElement.parentElement.rowIndex</td>
+        <td>{{splitbase.zqdm}}</td>
+        <td>{{splitbase.sendtocsdc}}</td>
+        <td>{{splitbase.hassplitdetail}}</td>
+        <td>{{splitbase.agentid}}</td>
+        <td>{{splitbase.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

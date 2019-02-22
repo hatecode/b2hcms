@@ -1,0 +1,71 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macro.html" as macros %}
+
+
+{% block content %}
+<div>{% include 'operator/hgstock/_hgstocks.html' %}</div>
+    <div><button id="addhgstock" name="addhgstock" onclick="addhgstock()">添加行情证券信息</button>
+        <button id="edithgstock" name="edithgstock" onclick="edithgstock()">编辑行情证券信息</button>
+        <button id="delhgstock" name="delhgstock" onclick="delhgstock()">删除行情证券信息</button></div>
+    </div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.hgstock') }}
+</div>
+{% endif %}
+{% endblock content%}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function addhgstock(){
+    window.location.href='{{url_for('operator.addhgstock')}}';
+    }
+
+    function delhgstock(){
+    hgstockid = $('tbody input:checkbox:checked').attr("id");
+    if( hgstockid == null){
+        alert('pleace choose the line you wanna delete');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.delhgstock')}}?hgstock=' + hgstockid;
+        }
+    }
+
+    function edithgstock(){
+    hgstockid = $('tbody input:checkbox:checked').attr("id");
+    if( hgstockid == null){
+        alert('pleace choose the line you wanna edit');
+        }
+    else {
+    window.location.href = '{{ url_for('operator.edithgstock')}}?hgstock=' + hgstockid;
+        }
+    }
+
+        function ischeckall(){
+    $("#checkall").change(function(){
+        let otherCheckList = $("div tbody input[type='checkbox']");
+        let checkAllStatus = $("#checkall").prop("checked");
+        otherCheckList.prop("checked",checkAllStatus);
+    });
+    }
+
+    function listencheckbox(){
+    $('div table tbody input[type="checkbox"]').on('change',function(){
+    let total = $('div table tbody input[type="checkbox"]').length;
+    let active = $('div table tbody input[type="checkbox"]:checked').length;
+    $('table thead input[type="checkbox"]').get(0).checked = (total === active);
+    });
+    }
+
+    window.onload = function(){
+    var i = 0;
+    trlength = $('tbody tr').length;
+    for(i;i<trlength;i++){
+        numtd = $('tbody tr')[i].cells[1];
+        numtd.innerText = i + 1;
+    }
+    };
+</script>
+{% endblock %}
