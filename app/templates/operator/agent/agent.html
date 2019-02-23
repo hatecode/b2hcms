@@ -2,9 +2,12 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macro.html" as macros %}
 
-
+{% block metas %}
+    {{super()}}
+    <meta charset="UTF-8">
+{% endblock metas %}
 {% block content %}
-<div>{% include 'operator/agent/_agents.html' %}</div>
+    <div>{% include 'operator/agent/_agents.html' %}</div>
     <div><button id="addagent" name="addagent" onclick="addagent()">添加代理券商</button>
         <button id="editagent" name="editagent" onclick="editagent()">编辑代理券商</button>
         <button id="delagent" name="delagent" onclick="delagent()">删除代理券商</button></div>
@@ -14,6 +17,14 @@
     {{ macros.pagination_widget(pagination, '.agent') }}
 </div>
 {% endif %}
+
+<div>
+    {% for baseconfigid in baseconfigids%}
+
+    <p><a href="{{url_for('main.baseconfig')}}/{{ baseconfigid }}" target="right">基础配置文件：{{ baseconfigid }}</a></p>
+
+    {% endfor%}
+</div>
 {% endblock content%}
 
 {% block scripts %}

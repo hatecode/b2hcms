@@ -13,7 +13,7 @@
   {% for agent in agents %}
     <tr name="{{agent.agentname}}">
         <td><input type="checkbox" id="{{agent.agentid}}" name="{{agent.agentid}}" ></td>
-        <td>document.getElementById('{{agent.agentid}}').parentElement.parentElement.rowIndex</td>
+        <td><!--document.getElementById('{{agent.agentid}}').parentElement.parentElement.rowIndex--></td>
         <td>{{agent.agentid}}</td>
         <td>{{agent.agentname}}</td>
         <td>{{agent.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>

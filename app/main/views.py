@@ -1,3 +1,4 @@
+#encoding:utf-8
 
 from flask import render_template,redirect,url_for,request,make_response,jsonify,current_app
 from flask_login import login_required
@@ -22,7 +23,8 @@ def top():
 @main.route('/left')
 @login_required
 def left():
-    return render_template('index/_left.html')
+    baseconfigids = Dbfsync.query.first().dbfsynccontent.split(',')
+    return render_template('index/_left.html',baseconfigids=baseconfigids)
 
 @main.route('/right')
 @login_required
@@ -37,27 +39,54 @@ def footer():
 @main.route('/baseconfig')
 @login_required
 def baseconfig():
-    baseconfigs = BaseConfig.query.order_by(BaseConfig.baseconfigid).all()
-    return render_template('baseconfig/baseconfigs.html',baseconfigs=baseconfigs)
+    page = request.args.get('page', 1, type=int)
+    pagination = BaseConfig.query.order_by(BaseConfig.lastupdate.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
+    baseconfigs = pagination.items
+    return render_template('baseconfig/baseconfig.html', pagination=pagination, baseconfigs=baseconfigs)
 
-@main.route('/baseconfig/baseconfigids',methods=['GET','POST'])
+@main.route('/baseconfig/<baseconfigid>',methods=['GET','POST'])
 @login_required
-def baseconfigids():
-    baseconfigs = BaseConfig.query.all()
-    #str_rep = ','.join([baseconfig.baseconfigid for baseconfig in baseconfigs])
-    #rsp = make_response(str_rep)
-    #rsp.set_data(str_rep)
-    str = {}
-    for baseconfig in baseconfigs:
-        str[baseconfig.id] = baseconfig.baseconfigid
-    return jsonify(str)
+def baseconfigids(baseconfigid):
+    form = EditBaseConfigForm()
+    db_baseconfig = BaseConfig.query.filter_by(baseconfigid=baseconfigid).first()
+    if db_baseconfig:
+        if form.validate_on_submit():
+            log = OperatorOperationLog( filetype='基础配置',
+                                        filename='baseconfig',
+                                        actiontype='update',
+                                        actioncontent='update baseconfig, old : ' +
+                                                     ' baseconfigname = ' + db_baseconfig.baseconfigname +
+                                                     ' baseconfigcontent = ' + db_baseconfig.baseconfigcontent +
+                                                     ' new : ' + 'baseconfigname = ' + form.baseconfigname.data +
+                                                     ' baseconfigcontent = ' + form.baseconfigcontent.data,
+                                        actiontime=datetime.now(),
+                                        user=current_user.username,
+                                        remote_addr=request.remote_addr)
+            db_baseconfig.baseconfigname = form.baseconfigname.data
+            db_baseconfig.baseconfigcontent = form.baseconfigcontent.data
+            try:
+                db.session.add_all([log,db_baseconfig])
+                db.session.commit()
+            except Exception,e:
+                db.session.rollback()
+                return str(e )
+            return redirect(url_for('main.right'))
+
+        form.baseconfigid.data = db_baseconfig.baseconfigid
+        form.baseconfigname.data = db_baseconfig.baseconfigname
+        form.baseconfigcontent.data = db_baseconfig.baseconfigcontent
+        return render_template('baseconfig/editconfig.html',form=form)
+    else:
+        return 'the baseconfigid %r doesn\'n exist, please check' % baseconfigid
 
 @main.route('/addconfig',methods=['GET','POST'])
 @login_required
 def addconfig():
     form = AddBaseConfigForm()
     if form.validate_on_submit():
-        baseconfigid = BaseConfig.query.filter_by(baseconfigid=form.baseconfigid.data).first()
+        req_baseconfigid = form.baseconfigid.data
+        baseconfigid = BaseConfig.query.filter_by(baseconfigid=req_baseconfigid).first()
         if baseconfigid is None:
             baseconfig = BaseConfig(baseconfigid=form.baseconfigid.data,
                                     baseconfigname=form.baseconfigname.data,
@@ -79,6 +108,8 @@ def addconfig():
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('main.baseconfig'))
+        else:
+            return 'the %s exitst, try another' % req_baseconfigid
     return render_template('baseconfig/addconfig.html',form=form)
 
 @main.route('/editconfig',methods=['GET','POST'])
@@ -152,28 +183,52 @@ def sysusers():
 @login_required
 def dbfsync():
     form = DbfsyncForm()
-    dbfsync = Dbfsync.query.first()
+    db_dbfsync = Dbfsync.query.first()
     if form.validate_on_submit():
-        data_list = form.dbfsynccontent.data.split(',')
-        data_list2 = [data.strip()for data in data_list]
-        dbfsync.dbfsynccontent = ','.join(data_list2)
         log = OperationLog(filename='dbfsync',
                            actiontype='update',
-                           actioncontent='update dbfsync:' +
-                                         ' content=' + dbfsync.dbfsynccontent,
+                           actioncontent=' update dbfsync:' +
+                                         ' old: id=' + db_dbfsync.dbfsyncid +
+                                         ' content=' + db_dbfsync.dbfsynccontent +
+                                         ' new: id=' + form.id.data +
+                                         ' content=' + form.content.data ,
                            actiontime=datetime.now(),
                            user=current_user.username,
                            remote_addr=request.remote_addr)
+
+        raw_data_list = form.content.data.split(',')
+        #print 'data_list: %r' % raw_data_list
+        data_list = [data.strip() for data in raw_data_list if data.strip()]
+        #print('data_list: ',data_list)
+
+        db_baseconfigs = BaseConfig.query.all()
+        db_baseconfigids = [db_baseconfig.baseconfigid for db_baseconfig in db_baseconfigs]
+        #print db_baseconfigids
+        #print(set(db_baseconfigids) >= set(data_list))
+
+        if set(db_baseconfigids) >= set(data_list):
+            db_dbfsync.dbfsynccontent = ','.join(data_list)
+            try:
+                db.session.add(log)
+                db.session.add(db_dbfsync)
+                db.session.commit()
+            except Exception,e:
+                db.session.rollback()
+                return str(e)
+            return '添加成功'.decode('utf-8')
+        else:
+            return '您添加的内容不在基础配置文件的ID中，请检查后添加'.decode('utf-8')
+
+    if db_dbfsync:
+        form.id.data = db_dbfsync.dbfsyncid
+        form.content.data = db_dbfsync.dbfsynccontent
+    else:
         try:
-            db.session.add(log)
+            db.session.add(Dbfsync(dbfsyncid='syncid'))
             db.session.commit()
         except Exception,e:
             db.session.rollback()
             return str(e)
-        return redirect(url_for('main.right'))
-    if dbfsync:
-        form.dbfsyncid.data = dbfsync.dbfsyncid
-        form.dbfsynccontent.data = dbfsync.dbfsynccontent
     return render_template('admin/dbfsync.html',form=form)
 
 @main.route('/oprationlog',methods=['GET','POST'])

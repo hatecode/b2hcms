@@ -6,7 +6,7 @@
 
 {% block content %}
 <div>{{wtf.quick_form(form)}}</div>
-<div><input type="button" class="btn btn-default" name="reset" value="reset" id="reset" onclick="reset()"></div>
+<div><input type="button" class="btn btn-default" name="reset" value="重置" id="reset" onclick="reset()"></div>
 <div>{% include 'operator/log/_logs.html' %}</div>
 
 {% if pagination %}

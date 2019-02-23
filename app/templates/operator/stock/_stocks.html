@@ -6,6 +6,7 @@
         <th>序号</th>
         <th>证券代码</th>
         <th>证券简称</th>
+        <th>业务类别</th>
         <th>其他信息</th>
         <th>最后更新时间</th>
     </tr>
@@ -14,9 +15,10 @@
   {% for stock in stocks %}
     <tr name="{{stock.zqdm}}">
         <td><input type="checkbox" id="{{stock.zqdm}}" name="{{stock.zqdm}}" ></td>
-        <td>document.getElementById('{{stock.stock}}').parentElement.parentElement.rowIndex</td>
+        <td><!--document.getElementById('{{stock.stock}}').parentElement.parentElement.rowIndex--></td>
         <td>{{stock.zqdm}}</td>
         <td>{{stock.stkabbr}}</td>
+        <td>{{stock.biztype}}</td>
         <td>{{stock.info}}</td>
         <td>{{stock.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
     </tr>

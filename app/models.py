@@ -51,23 +51,23 @@ def load_user(user_id):
 class BaseConfig(db.Model):
     __tablename__ = "baseconfigs"
     id = db.Column(db.Integer,primary_key=True)
-    baseconfigid = db.Column(db.String(10),unique=True,index=True)
-    baseconfigname = db.Column(db.String(10),nullable=False)
+    baseconfigid = db.Column(db.String(24),unique=True,index=True)
+    baseconfigname = db.Column(db.String(24),nullable=False)
     baseconfigcontent = db.Column(db.UnicodeText,nullable=False)
     lastupdate = db.Column(db.DateTime,default=datetime.utcnow)
 
 class Dbfsync(db.Model):
     __tablename__ = "dbfsyncs"
     id = db.Column(db.Integer,primary_key=True)
-    dbfsyncid = db.Column(db.String(10),default='dbfsyncid')
-    dbfsynccontent = db.Column(db.UnicodeText,nullable=False)
+    dbfsyncid = db.Column(db.String(24),default='dbfsyncid')
+    dbfsynccontent = db.Column(db.UnicodeText)
 
 class OperationLog(db.Model):
     __tablename__ = "operationlogs"
     id = db.Column(db.Integer,primary_key=True)
     filename = db.Column(db.String(15),nullable=False,index=True)
     actiontype = db.Column(db.String(10),nullable=False,index=True)
-    actiontime = db.Column(db.DateTime,default=datetime.utcnow)
+    actiontime = db.Column(db.DateTime,default=datetime.now)
     actioncontent = db.Column(db.UnicodeText,nullable=True)
     user = db.Column(db.String(30),nullable=False,index=True)
     remote_addr = db.Column(db.String(20),index=True)
@@ -100,7 +100,7 @@ class OperatorOperationLog(db.Model):
     user = db.Column(db.String(30), nullable=False, index=True)
     remote_addr = db.Column(db.String(20), index=True)
     filetype = db.Column(db.String(10), nullable=False, index=True)
-    actiontime = db.Column(db.DateTime, default=datetime.utcnow)
+    actiontime = db.Column(db.DateTime, default=datetime.now)
 
 class Stock(db.Model):
     __tablename__ = 'stocks'
@@ -111,7 +111,7 @@ class Stock(db.Model):
     info = db.Column(db.String(128))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitbases = db.relationship('SplitBase', uselist=False, backref='stock')
+    splitbases = db.relationship('SplitBase', uselist=False, backref='stock', cascade='all, delete-orphan')
 
     def __repr__(self):
         return '<Stock %r>' % self.zqdm
@@ -127,7 +127,7 @@ class SplitBase(db.Model):
     agentid = db.Column(db.String(16), db.ForeignKey('agents.agentid', ondelete='CASCADE', onupdate='CASCADE'),nullable=False)
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitdetails = db.relationship('SplitDetail', uselist=False, backref='splitbase')
+    splitdetails = db.relationship('SplitDetail', uselist=False, backref='splitbase', cascade='all, delete-orphan')
     def __repr__(self):
         return '<SplitBase %r>' % self.zqdm
 
@@ -148,6 +148,6 @@ class Agent(db.Model):
     agentname = db.Column(db.String(24))
     lastupdate = db.Column(db.DateTime, default=datetime.utcnow)
 
-    splitbases = db.relationship('SplitBase', backref='agent',lazy='dynamic')
+    splitbases = db.relationship('SplitBase', backref='agent',lazy='dynamic', cascade='all, delete-orphan')
 
 

@@ -1,9 +1,13 @@
-from flask import render_template,redirect,url_for,request,make_response,jsonify,current_app
+#encoding=utf-8
+
+from flask import render_template,redirect,url_for,request,current_app
 from flask_login import login_required
 from .forms import *
 from . import operator
 from ..models import *
 from sqlalchemy import and_,or_
+
+from pymysql.err import IntegrityError
 
 @operator.route('/hgstock')
 @login_required
@@ -23,7 +27,7 @@ def addhgstock():
                               stkabbr=form.stkabbr.data,
                               hkstock=form.hkstock.data,
                               lastupdate=datetime.now())
-            log = OperatorOperationLog(filetype='basictype',
+            log = OperatorOperationLog(filetype='业务配置',
                                        filename='hgstock',
                                        actiontype='create',
                                        actioncontent='create a hgstock:'+
@@ -36,7 +40,10 @@ def addhgstock():
             try:
                 db.session.add_all([log,hgstock])
                 db.session.commit()
-            except Exception,e:
+            except IntegrityError:
+                db.session.rollback()
+                return 'hgstock已存在，请勿重复添加'
+            except Exception, e:
                 db.session.rollback()
                 return str(e)
             return redirect(url_for('operator.hgstock'))
@@ -49,7 +56,7 @@ def edithgstock():
     req_hgstock = request.args.get('hgstock')
     db_hgstock = HGStock.query.filter_by(hgstock=req_hgstock).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='hgstock',
                                    actiontype='update',
                                    actioncontent='update a hgstock,new:' +
@@ -88,7 +95,7 @@ def delhgstock():
     req_hgstock = request.args.get('hgstock')
     db_hgstock = HGStock.query.filter_by(hgstock=req_hgstock).first()
     if db_hgstock is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='hgstock',
                                    actiontype='delete',
                                    actioncontent='delete a hgstock:' +
@@ -127,7 +134,7 @@ def addstock():
                           biztype=form.biztype.data,
                           info = form.info.data,
                           lastupdate=datetime.now())
-            log = OperatorOperationLog(filetype='basictype',
+            log = OperatorOperationLog(filetype='业务配置',
                                        filename='stock',
                                        actiontype='create',
                                        actioncontent='create a stock:' +
@@ -154,7 +161,7 @@ def editstock():
     req_zqdm = request.args.get('zqdm')
     db_stock = Stock.query.filter_by(zqdm=req_zqdm).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='stock',
                                    actiontype='update',
                                    actioncontent='update a stock,new:' +
@@ -197,7 +204,7 @@ def delstock():
     req_zqdm = request.args.get('zqdm')
     db_stock = Stock.query.filter_by(zqdm=req_zqdm).first()
     if db_stock is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='stock',
                                    actiontype='delete',
                                    actioncontent='delete a stock:' +
@@ -237,7 +244,7 @@ def addsplitbase():
                                   hassplitdetail=int(form.hassplitdetail.data),
                                   agentid = form.agentid.data,
                                   lastupdate=datetime.now())
-            log = OperatorOperationLog(filetype='basictype',
+            log = OperatorOperationLog(filetype='业务配置',
                                        filename='splitbase',
                                        actiontype='create',
                                        actioncontent='create a splitbase:' +
@@ -264,7 +271,7 @@ def editsplitbase():
     req_zqdm = request.args.get('zqdm')
     db_splitbase = SplitBase.query.filter_by(zqdm=req_zqdm).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='splitbase',
                                    actiontype='update',
                                    actioncontent='update a splitbase,new:' +
@@ -307,7 +314,7 @@ def delsplitbase():
     req_zqdm = request.args.get('zqdm')
     db_splitbase = SplitBase.query.filter_by(zqdm=req_zqdm).first()
     if db_splitbase is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='splitbase',
                                    actiontype='delete',
                                    actioncontent='delete a splitbase:' +
@@ -346,7 +353,7 @@ def addsplitdetail():
                                   broker=form.broker.data,
                                   agentid = form.agentid.data,
                                   lastupdate=datetime.now())
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='splitdetail',
                                    actiontype='create',
                                    actioncontent='create a splitdetail:' +
@@ -372,7 +379,7 @@ def editsplitdetail():
     req_zqdm = request.args.get('zqdm')
     db_splitdetail = SplitDetail.query.filter_by(zqdm=req_zqdm).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='splitdetail',
                                    actiontype='update',
                                    actioncontent='update a splitdetail,new:' +
@@ -411,7 +418,7 @@ def delsplitdetail():
     req_zqdm = request.args.get('zqdm')
     db_splitdetail = SplitDetail.query.filter_by(zqdm=req_zqdm).first()
     if db_splitdetail is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='splitdetail',
                                    actiontype='delete',
                                    actioncontent='delete a splitdetail:' +
@@ -438,7 +445,8 @@ def agent():
     pagination = Agent.query.order_by(Agent.lastupdate.desc()).paginate(
         page, per_page=current_app.config['FLASKY_LOG_PER_PAGE'], error_out=False)
     agents = pagination.items
-    return render_template('operator/agent/agent.html', pagination=pagination, agents=agents)
+    baseconfigids = Dbfsync.query.first().dbfsynccontent.split(',')
+    return render_template('operator/agent/agent.html', pagination=pagination, agents=agents, baseconfigids=baseconfigids)
 
 @operator.route('/addagent',methods=['GET','POST'])
 @login_required
@@ -448,7 +456,7 @@ def addagent():
             agent = Agent(agentid=form.agentid.data,
                           agentname=form.agentname.data,
                           lastupdate=datetime.now())
-            log = OperatorOperationLog(filetype='basictype',
+            log = OperatorOperationLog(filetype='业务配置',
                                        filename='agent',
                                        actiontype='create',
                                        actioncontent='create a agent:'+
@@ -473,7 +481,7 @@ def editagent():
     req_agentid = request.args.get('agentid')
     db_agent = Agent.query.filter_by(agentid=req_agentid).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='agent',
                                    actiontype='update',
                                    actioncontent='update a agent,new:' +
@@ -508,7 +516,7 @@ def delagent():
     req_agentid = request.args.get('agentid')
     db_agent = Agent.query.filter_by(agentid=req_agentid).first()
     if db_agent is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='agent',
                                    actiontype='delete',
                                    actioncontent='delete a agent:' +
@@ -548,7 +556,7 @@ def addtwuser():
                             password=form.password.data,
                             broker=form.broker.data,
                             lastupdate=datetime.now())
-            log = OperatorOperationLog(filetype='basictype',
+            log = OperatorOperationLog(filetype='业务配置',
                                        filename='twuser',
                                        actiontype='create',
                                        actioncontent='create a twuser:'+
@@ -557,7 +565,7 @@ def addtwuser():
                                                      ' istestuser=' + form.istestuser.data +
                                                      ' ekey=' + form.ekey.data +
                                                      ' password=' + form.password.data +
-                                                     ' broker=' + str(form.broker.data) ,
+                                                     ' broker=' + form.broker.data.decode('utf-8') ,
                                        actiontime=datetime.now(),
                                        user=current_user.username,
                                        remote_addr=request.remote_addr)
@@ -577,7 +585,7 @@ def edittwuser():
     req_clientid = request.args.get('clientid')
     db_twuser = TWUser.query.filter_by(clientid=req_clientid).first()
     if form.validate_on_submit():
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='twuser',
                                    actiontype='update',
                                    actioncontent='update a twuser,new:' +
@@ -593,7 +601,7 @@ def edittwuser():
                                                  ' istestuser='+db_twuser.istestuser +
                                                  ' ekey=' + db_twuser.ekey +
                                                  ' password=' + db_twuser.password +
-                                                 ' broker=' + str(db_twuser.broker) ,
+                                                 ' broker=' + db_twuser.broker.decode('utf-8') ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)
@@ -628,7 +636,7 @@ def deltwuser():
     req_clientid = request.args.get('clientid')
     db_twuser = TWUser.query.filter_by(clientid=req_clientid).first()
     if db_twuser is not None:
-        log = OperatorOperationLog(filetype='basictype',
+        log = OperatorOperationLog(filetype='业务配置',
                                    filename='twuser',
                                    actiontype='delete',
                                    actioncontent='delete a twuser:' +
@@ -637,7 +645,7 @@ def deltwuser():
                                                  ' istestuser=' + db_twuser.istestuser +
                                                  ' ekey=' + db_twuser.ekey +
                                                  ' password=' + db_twuser.password +
-                                                 ' broker=' + db_twuser.broker ,
+                                                 ' broker=' + db_twuser.broker.decode('utf-8') ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)

@@ -7,12 +7,12 @@
 {% block scripts %}
 {{super()}}
 <script>
-/*
+
 window.onload = function(){
     baseconfigid = document.getElementById('baseconfigid');
     baseconfigid.readOnly = 'readonly';
 };
-*/
+
 function cancel(){
     window.location.href = '{{url_for('main.baseconfig')}}'
 }

@@ -1,0 +1,25 @@
+<table class="table table-bordered">
+  <caption>基础配置文件</caption>
+  <thead>
+    <tr>
+        <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
+        <th>序号</th>
+        <th>基础配置文件id</th>
+        <th>基础配置文件名称</th>
+        <th>基础配置文件内容</th>
+        <th>最后更新时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for baseconfig in baseconfigs %}
+    <tr name="{{baseconfig.baseconfigname}}">
+        <td><input type="checkbox" id="{{baseconfig.baseconfigid}}" name="{{baseconfig.baseconfigid}}" ></td>
+        <td><!--document.getElementById('{{baseconfig.baseconfigid}}').parentElement.parentElement.rowIndex--></td>
+        <td>{{baseconfig.baseconfigid}}</td>
+        <td>{{baseconfig.baseconfigname}}</td>
+        <td>{{baseconfig.baseconfigcontent}}</td>
+        <td>{{baseconfig.lastupdate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

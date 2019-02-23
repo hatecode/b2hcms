@@ -9,20 +9,20 @@
   <thead>
     <tr>
         <th><input type="checkbox" id="checkall" name="checkall" onclick="ischeckall();listencheckbox()"></th>
-      <th>num</th>
-      <th>username</th>
-      <th>admin</th>
-        <th>cellphone</th>
-        <th>landline</th>
-        <th>emaill</th>
-        <th>department</th>
+      <th>序号</th>
+      <th>用户名</th>
+      <th>是否管理员</th>
+        <th>移动电话</th>
+        <th>固定电话</th>
+        <th>电子邮件</th>
+        <th>所在部门</th>
     </tr>
   </thead>
   <tbody>
   {%for user in users%}
     <tr name="{{user.username}}">
         <td><input type="checkbox" id="{{user.username}}" name="{{user.username}}" ></td>
-        <td>document.getElementById('{{user.username}}').parentElement.parentElement.rowIndex</td>
+        <td><!--document.getElementById('{{user.username}}').parentElement.parentElement.rowIndex--></td>
       <td>{{user.username}}</td>
       <td>{{user.is_admin}}</td>
         <td>{{user.cellphone}}</td>

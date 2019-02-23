@@ -7,7 +7,7 @@
 {% block content %}
 {%if current_user.is_admin%}
 <div>{{wtf.quick_form(form)}}</div>
-<div><input type="button" class="btn btn-default" name="reset" value="reset" id="reset" onclick="reset()"></div>
+<div><input type="button" class="btn btn-default" name="reset" value="重置" id="reset" onclick="reset()"></div>
 <div>{% include 'admin/_logs.html' %}</div>
 
 {% if pagination %}

@@ -17,7 +17,7 @@
   {% for twuser in twusers %}
     <tr name="{{twuser.clientid}}">
         <td><input type="checkbox" id="{{twuser.clientid}}" name="{{twuser.clientid}}" ></td>
-        <td>document.getElementById('{{twuser.clientid}}').parentElement.parentElement.rowIndex</td>
+        <td><!--document.getElementById('{{twuser.clientid}}').parentElement.parentElement.rowIndex--></td>
         <td>{{twuser.clientid}}</td>
         <td>{{twuser.groupid}}</td>
         <td>{{twuser.istestuser}}</td>

@@ -22,7 +22,7 @@
 {{super()}}
 <script>
 window.onload = function(){
-    baseconfigid = document.getElementById('dbfsyncid');
+    baseconfigid = document.getElementById('id');
     baseconfigid.readOnly = 'readonly';
 };
 
@@ -33,7 +33,7 @@ function cancel(){
 document.getElementById('submit').removeEventListener('onsubmit',onsubmit,false);
 
 document.getElementById('test').onclick = function(){
-    rsp = $.get('{{url_for('main.baseconfigids')}}');
+    rsp = $.get('{{url_for('main.baseconfig')}}');
     alert(JSON.stringify(rsp));
 }
 </script>

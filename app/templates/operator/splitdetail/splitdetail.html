@@ -4,19 +4,26 @@
 
 
 {% block content %}
-<div>{% include 'operator/splitdetail/_splitdetails.html' %}</div>
+<ul class="nav nav-tabs">
+	<li><a href="{{url_for('operator.stock')}}" target="right">证券信息</a></li>
+	<li><a href="{{url_for('operator.splitbase')}}" target="right">基本路由</a></li>
+	<li class="active"><a href="{{url_for('operator.splitdetail')}}" target="right">详细路由</a></li>
+</ul>
+
+    <div>{% include 'operator/splitdetail/_splitdetails.html' %}</div>
     <div><button id="addsplitdetail" name="addsplitdetail" onclick="addsplitdetail()">添加详细路由</button>
         <button id="editsplitdetail" name="editsplitdetail" onclick="editsplitdetail()">编辑详细路由</button>
         <button id="delsplitdetail" name="delsplitdetail" onclick="delsplitdetail()">删除详细路由</button></div>
     </div>
-{% if pagination %}
-<div class="pagination">
+    {% if pagination %}
+    <div class="pagination">
     {{ macros.pagination_widget(pagination, '.splitdetail') }}
-</div>
-{% endif %}
+    </div>
+    {% endif %}
+<!--
 <div><p><a href="{{url_for('operator.stock')}}">返回首页：证券信息</a></p></div>
 <div><p><a href="{{url_for('operator.splitbase')}}">返回上一步：基本路由</a></p></div>
-
+-->
 {% endblock content%}
 
 {% block scripts %}

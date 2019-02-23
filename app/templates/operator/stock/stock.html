@@ -3,25 +3,40 @@
 {% import "_macro.html" as macros %}
 
 
+
 {% block content %}
-<div>{% include 'operator/stock/_stocks.html' %}</div>
-    <div><button id="addstock" name="addstock" onclick="addstock()">添加证券信息</button>
-        <button id="editstock" name="editstock" onclick="editstock()">编辑证券信息</button>
-        <button id="delstock" name="delstock" onclick="delstock()">删除证券信息</button></div>
-    </div>
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.stock') }}
-</div>
-{% endif %}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{{url_for('operator.stock')}}" target="right">证券信息</a></li>
+	<li><a href="{{url_for('operator.splitbase')}}" target="right">基本路由</a></li>
+	<li><a href="{{url_for('operator.splitdetail')}}" target="right">详细路由</a></li>
+</ul>
+
+        <div>{% include 'operator/stock/_stocks.html' %}</div>
+        <div>
+            <button id="addstock" name="addstock" onclick="addstock()">添加证券信息</button>
+            <button id="editstock" name="editstock" onclick="editstock()">编辑证券信息</button>
+            <button id="delstock" name="delstock" onclick="delstock()">删除证券信息</button>
+        </div>
+        {% if pagination %}
+            <div class="pagination">
+                {{ macros.pagination_widget(pagination, '.stock') }}
+            </div>
+        {% endif %}
+
+<!--
 <div><p><a href="{{url_for('operator.splitbase')}}">第二步：添加基本路由</a></p></div>
 <div><p><a href="{{url_for('operator.splitdetail')}}">第三步：添加详细路由</a></p></div>
+-->
 
 {% endblock content%}
 
 {% block scripts %}
 {{ super() }}
 <script>
+    $(function () {
+		$('#myTab li:eq(0) a').tab('show');
+	});
+
     function addstock(){
     window.location.href='{{url_for('operator.addstock')}}';
     }

@@ -20,10 +20,29 @@
             <li><a href="{{url_for('main.dbfsync')}}" target="right">代理券商dbfsync链接</a></li>
             <li><a href="{{url_for('main.oprationlog')}}" target="right">基础日志查询</a></li>
             {% else %}
-            <li><a href="{{url_for('operator.hgstock')}}" target="right">行情证券信息管理</a></li>
-            <li><a href="{{url_for('operator.stock')}}" target="right">证券信息管理</a></li>
-            <li><a href="{{url_for('operator.agent')}}" target="right">代理券商管理</a></li>
-            <li><a href="{{url_for('operator.twuser')}}" target="right">境内用户管理</a></li>
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					业务配置文件 <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="{{url_for('operator.hgstock')}}" target="right">行情信息管理</a></li>
+                    <li><a href="{{url_for('operator.stock')}}" target="right">证券信息管理</a></li>
+                    <li><a href="{{url_for('operator.agent')}}" target="right">代理券商管理</a></li>
+                    <li><a href="{{url_for('operator.twuser')}}" target="right">境内用户管理</a></li>
+				</ul>
+			</li>
+
+             <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					基础配置文件 <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+                    {% for baseconfigid in baseconfigids%}
+                        <li><a href="{{url_for('main.baseconfig')}}/{{ baseconfigid }}" target="right">{{ baseconfigid }}</a></li>
+                    {% endfor%}
+				</ul>
+			</li>
+
             <li><a href="{{url_for('operator.operatorlog')}}" target="right">基础日志查询</a></li>
             {% endif%}
         </ul>
@@ -31,4 +50,3 @@
     </div>
 </nav>
 {%- endblock navbar %}
-
