@@ -3,12 +3,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-    <h1>欢迎登录B2H配置管理系统</h1>
-</div>
-<div>
-    {{ wtf.quick_form(form) }}
-</div>
-<div>
-    <br><h4>还没有账号？ <a href="{{ url_for('auth.register')}}"> 快点我注册</a></h4>
-</div>
+     <div class="container">
+         <div class="row">
+             <div class="col-md-6 col-md-offset-3">
+                    <h1>欢迎登录B2H配置管理系统</h1>
+                <div>
+                    {{ wtf.quick_form(form) }}
+                </div>
+                <div>
+                    <br><h4>还没有账号？ <a href="{{ url_for('auth.register')}}"> 快点我注册</a></h4>
+                </div>
+             </div>
+        </div>
+    </div>
 {% endblock content%}

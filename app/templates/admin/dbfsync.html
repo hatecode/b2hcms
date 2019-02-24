@@ -11,9 +11,8 @@
     {{ wtf.quick_form(form) }}
 </div>
 <div>
-    <input class="btn btn-default" type="button" name="cancel" value="cancel" onclick="cancel()">
-    <input class="btn btn-default" type="button" name="test" value="test" id="test">
-
+    <br>
+    <input class="btn btn-default" type="button" name="cancel" value="取消" onclick="cancel()">
 </div>
 {% endif%}
 {% endblock content%}
@@ -30,11 +29,5 @@ function cancel(){
     window.location.href = '{{url_for('main.right')}}';
 }
 
-document.getElementById('submit').removeEventListener('onsubmit',onsubmit,false);
-
-document.getElementById('test').onclick = function(){
-    rsp = $.get('{{url_for('main.baseconfig')}}');
-    alert(JSON.stringify(rsp));
-}
 </script>
 {% endblock scripts %}

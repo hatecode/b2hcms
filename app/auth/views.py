@@ -21,6 +21,20 @@ def login():
             return 'invalid username or password'
     return render_template('auth/login.html',form=form)
 
+@auth.route('/login2',methods=['GET','POST'])
+def login2():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember_me = request.form.get('remember_me')
+        user = User.query.filter_by(username=username).first()
+        if user is not None and user.check_password(password):
+            login_user(user, remember_me)
+            return redirect(url_for('main.index'))
+        else:
+            return 'invalid username or password'
+    return render_template('auth/login2.html')
+
 @auth.route('/register',methods=['GET','POST'])
 def register():
     form = RegistrationForm()

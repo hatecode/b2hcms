@@ -23,7 +23,26 @@
     window.location.href='{{url_for('operator.addhgstock')}}';
     }
 
+    /*function delhgstock2(){
+        var ids = [];
+        hgstocks = $('tbody input:checkbox:checked');
+        for(let i=0; i<hgstocks.length; i++){
+            ids.push(hgstocks[i].id);
+        }
+        var jqxhr = $.ajax(
+        "{{ url_for('operator.delhgstock')}}",{
+        ids:ids
+        }).done(function (data){
+            alert('删除成功')；
+        }).fail(function (xhr, status){
+            alert('删除失败' + xhr.status + '原因' + status)；
+        }).always(function (){
+            alert('成功失败都有我')；
+        });
+    }*/
+
     function delhgstock(){
+    /*
     hgstockid = $('tbody input:checkbox:checked').attr("id");
     if( hgstockid == null){
         alert('pleace choose the line you wanna delete');
@@ -31,6 +50,16 @@
     else {
     window.location.href = '{{ url_for('operator.delhgstock')}}?hgstock=' + hgstockid;
         }
+    */
+    var ids = [];
+     var url = '{{ url_for('operator.delhgstock')}}?';
+     hgstocks = $('tbody input:checkbox:checked');
+     for(let i=0; i<hgstocks.length-1; i++){
+         ids.push(hgstocks[i].id);
+         url = url +'id' + i + '=' + hgstocks[i].id + '&';
+     }
+     url = url + 'id=' + hgstocks[(hgstocks.length -1)].id
+     location.href = url;
     }
 
     function edithgstock(){

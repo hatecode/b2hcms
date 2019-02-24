@@ -92,6 +92,7 @@ def edithgstock():
 @operator.route('/delhgstock')
 @login_required
 def delhgstock():
+    '''
     req_hgstock = request.args.get('hgstock')
     db_hgstock = HGStock.query.filter_by(hgstock=req_hgstock).first()
     if db_hgstock is not None:
@@ -114,6 +115,21 @@ def delhgstock():
             return str(e)
         return redirect(url_for('operator.hgstock'))
     return 'the hgstock ; %s doesn\'t exist' % req_hgstock
+    '''
+    ids = request.args.values()
+    print(ids)
+    for id in ids:
+        db_hg = HGStock.query.filter_by(hgstock=id).first()
+        if db_hg:
+            try:
+                db.session.delete(db_hg)
+                db.session.commit()
+            except Exception,e:
+                db.session.rollback()
+                return str(e)
+        else:
+            return 'hgstockid %s not exist' % db_hg
+    return 'delete successfully'
 
 @operator.route('/stock')
 @login_required
@@ -281,15 +297,15 @@ def editsplitbase():
                                          ' agentid=' + form.agentid.data +
                                          ' old:'+
                                          ' zqdm='+db_splitbase.zqdm +
-                                         ' sendtocsdc=' + db_splitbase.sendtocsdc +
-                                         ' hassplitdetail='+db_splitbase.hassplitdetail +
+                                         ' sendtocsdc=' + str(db_splitbase.sendtocsdc) +
+                                         ' hassplitdetail='+ str(db_splitbase.hassplitdetail) +
                                          ' agentid=' + db_splitbase.agentid ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)
         db_splitbase.zqdm = form.zqdm.data
-        db_splitbase.sendtocsdc = form.sendtocsdc.data
-        db_splitbase.hassplitdetail = form.hassplitdetail.data
+        db_splitbase.sendtocsdc = form.sendtocsdc.data == '1'
+        db_splitbase.hassplitdetail = form.hassplitdetail.data == '1'
         db_splitbase.agentid = form.agentid.data
         db_splitbase.lastupdate = datetime.now()
         try:
@@ -301,8 +317,8 @@ def editsplitbase():
         return redirect(url_for('operator.splitbase'))
     if db_splitbase is not None:
         form.zqdm.data = db_splitbase.zqdm
-        form.sendtocsdc.data = db_splitbase.sendtocsdc
-        form.hassplitdetail.data = db_splitbase.hassplitdetail
+        form.sendtocsdc.data = '1' if db_splitbase.sendtocsdc else '0'
+        form.hassplitdetail.data = '1' if db_splitbase.hassplitdetail else '0'
         form.agentid.data = db_splitbase.agentid
     else:
         return 'the zqdm record: %s doesn\'t exist' % req_zqdm
@@ -319,8 +335,8 @@ def delsplitbase():
                                    actiontype='delete',
                                    actioncontent='delete a splitbase:' +
                                                  ' zqdm=' + db_splitbase.zqdm +
-                                                 ' sendtocsdc=' + db_splitbase.sendtocsdc +
-                                                 ' hassplitdetail=' + db_splitbase.hassplitdetail +
+                                                 ' sendtocsdc=' + str(db_splitbase.sendtocsdc) +
+                                                 ' hassplitdetail=' + str(db_splitbase.hassplitdetail) +
                                                  ' agentid=' + db_splitbase.agentid ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
@@ -459,7 +475,7 @@ def addagent():
             log = OperatorOperationLog(filetype='业务配置',
                                        filename='agent',
                                        actiontype='create',
-                                       actioncontent='create a agent:'+
+                                       actioncontent=' create a agent:'+
                                                      ' agentid='+form.agentid.data +
                                                      ' agentname='+form.agentname.data ,
                                        actiontime=datetime.now(),
@@ -562,10 +578,10 @@ def addtwuser():
                                        actioncontent='create a twuser:'+
                                                      ' clientid='+form.clientid.data +
                                                      ' groupid='+form.groupid.data +
-                                                     ' istestuser=' + form.istestuser.data +
+                                                     ' istestuser=' + str(form.istestuser.data) +
                                                      ' ekey=' + form.ekey.data +
                                                      ' password=' + form.password.data +
-                                                     ' broker=' + form.broker.data.decode('utf-8') ,
+                                                     ' broker=' + form.broker.data ,
                                        actiontime=datetime.now(),
                                        user=current_user.username,
                                        remote_addr=request.remote_addr)
@@ -598,16 +614,16 @@ def edittwuser():
                                                  ' old:'+
                                                  ' clientid='+db_twuser.clientid +
                                                  ' groupid=' + db_twuser.groupid +
-                                                 ' istestuser='+db_twuser.istestuser +
+                                                 ' istestuser='+ str(db_twuser.istestuser) +
                                                  ' ekey=' + db_twuser.ekey +
                                                  ' password=' + db_twuser.password +
-                                                 ' broker=' + db_twuser.broker.decode('utf-8') ,
+                                                 ' broker=' + db_twuser.broker ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)
         db_twuser.clientid = form.clientid.data
         db_twuser.groupid = form.groupid.data
-        db_twuser.istestuser = int(form.istestuser.data)
+        db_twuser.istestuser = form.istestuser.data == '1'
         db_twuser.ekey = form.ekey.data
         db_twuser.password = form.password.data
         db_twuser.broker = form.broker.data
@@ -622,7 +638,7 @@ def edittwuser():
     if db_twuser is not None:
         form.clientid.data = db_twuser.clientid
         form.groupid.data = db_twuser.groupid
-        form.istestuser.data = db_twuser.istestuser
+        form.istestuser.data = '1' if db_twuser.istestuser else '0'
         form.ekey.data = db_twuser.ekey
         form.password.data = db_twuser.password
         form.broker.data = db_twuser.broker
@@ -642,10 +658,10 @@ def deltwuser():
                                    actioncontent='delete a twuser:' +
                                                  ' clientid=' + db_twuser.clientid +
                                                  ' groupid=' + db_twuser.groupid +
-                                                 ' istestuser=' + db_twuser.istestuser +
+                                                 ' istestuser=' + str(db_twuser.istestuser) +
                                                  ' ekey=' + db_twuser.ekey +
                                                  ' password=' + db_twuser.password +
-                                                 ' broker=' + db_twuser.broker.decode('utf-8') ,
+                                                 ' broker=' + db_twuser.broker ,
                                    actiontime=datetime.now(),
                                    user=current_user.username,
                                    remote_addr=request.remote_addr)

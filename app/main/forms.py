@@ -22,10 +22,10 @@ class DbfsyncForm(FlaskForm):
     submit = SubmitField('提交')
 
 class SearchForm(FlaskForm):
-    filename = SelectField(choices=[('',''),('dbfsync','dbfsync'),('baseconfig','baseconfig'),('user','user')],
+    filename = SelectField(choices=[('','请选择'),('dbfsync','dbfsync'),('baseconfig','baseconfig'),('user','user')],
                          label='文件名称')
 
-    actiontype = SelectField(choices=[('',''),('create','create'),('update','update'),('delete','delete')],
+    actiontype = SelectField(choices=[('','请选择'),('create','create'),('update','update'),('delete','delete')],
                              label='操作类型')
     user = StringField(label='用户')
     ip = StringField(label='ip地址')
